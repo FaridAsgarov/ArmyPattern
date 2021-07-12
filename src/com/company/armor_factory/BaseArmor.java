@@ -6,4 +6,8 @@ public class BaseArmor {
     public BaseArmor(Material material){
        this.material = material;
     }
+
+    public int getArmorHP(){
+      return this.material.getMaterialHP();
+    }
 }
