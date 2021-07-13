@@ -7,6 +7,8 @@ public class LightArmorComposite extends BaseArmorComposite {
 
   public LightArmorComposite(Material material) {
      super(material);
+     this.addArmorToList(new ClothArmorComposite());
+     this.addArmorToList(new LeatherArmorComposite());
   }
 
 
