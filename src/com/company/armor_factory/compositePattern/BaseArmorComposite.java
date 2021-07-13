@@ -12,7 +12,7 @@ public class BaseArmorComposite extends BaseArmor {
 
    ArrayList<BaseArmor> ArmorEquipment = new ArrayList<BaseArmor>();
 
-   protected void addArmorList(BaseArmor baseArmor){
+   protected void addArmorToList(BaseArmor baseArmor){
       ArmorEquipment.add(baseArmor);
    }
 

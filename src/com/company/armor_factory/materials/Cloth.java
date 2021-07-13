@@ -4,7 +4,7 @@ import com.company.armor_factory.Material;
 
 public class Cloth extends Material {
 
-  protected Cloth() {
+  public Cloth() {
     super(5);
   }
 }
