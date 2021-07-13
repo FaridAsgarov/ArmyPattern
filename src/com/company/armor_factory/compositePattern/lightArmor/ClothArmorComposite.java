@@ -1,6 +1,5 @@
 package com.company.armor_factory.compositePattern.lightArmor;
 
-import com.company.armor_factory.Material;
 import com.company.armor_factory.compositePattern.BaseArmorComposite;
 import com.company.armor_factory.concreteArmorElements.fromCloth.ClothArmguard;
 import com.company.armor_factory.concreteArmorElements.fromCloth.ClothHelm;
