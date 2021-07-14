@@ -12,4 +12,16 @@ public class HeavyArmorComposite extends BaseArmorComposite {
     this.addArmorToList(new LamellarArmorComposite());
     this.addArmorToList(new PlateArmorComposite());
   }
+
+  @Override
+  public int getTotalArmorHP() {
+    int totalHP = 0;
+    for (var element : this.getChildren())
+    {
+      for(var t : ((BaseArmorComposite)element).getChildren()) {
+        totalHP += t.getArmorHP();
+      }
+    }
+    return totalHP;
+  }
 }

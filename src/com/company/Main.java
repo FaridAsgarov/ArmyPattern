@@ -38,11 +38,13 @@ public class Main {
 //        PlateArmorComposite plateArmorSet = new PlateArmorComposite();
 //        System.out.println(plateArmorSet.getTotalArmorHP());
 
-//        LightArmorComposite lightArmorSet = new LightArmorComposite(null);
-//        System.out.println(lightArmorSet.getTotalArmorHP());
-//
-//        HeavyArmorComposite heavyArmorSet = new HeavyArmorComposite(null);
-//        System.out.println(heavyArmorSet.getTotalArmorHP());
+        LightArmorComposite lightArmorSet = new LightArmorComposite(null);
+//        System.out.println(lightArmorSet.toString());
+//        System.out.println(lightArmorSet.getChildren().size());
+          System.out.println(lightArmorSet.getTotalArmorHP());
+
+        HeavyArmorComposite heavyArmorSet = new HeavyArmorComposite(null);
+        System.out.println(heavyArmorSet.getTotalArmorHP());
 
     }
 }

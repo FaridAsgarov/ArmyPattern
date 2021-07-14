@@ -10,7 +10,16 @@ public class BaseArmorComposite extends BaseArmor {
     super(material);
   }
 
-   ArrayList<BaseArmor> ArmorEquipment = new ArrayList<BaseArmor>();
+  @Override
+  public String toString() {
+    String tmp = "";
+    for (BaseArmor element : this.getChildren()) {
+      tmp += element.toString() + "\n";
+    }
+    return tmp;
+  }
+
+  ArrayList<BaseArmor> ArmorEquipment = new ArrayList<BaseArmor>();
 
    protected void addArmorToList(BaseArmor baseArmor){
       ArmorEquipment.add(baseArmor);
