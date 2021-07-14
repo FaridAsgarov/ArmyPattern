@@ -4,7 +4,7 @@ import com.company.armor_factory.Material;
 
 public class Lamellar extends Material {
 
-  protected Lamellar() {
+  public Lamellar() {
     super(40);
   }
 }

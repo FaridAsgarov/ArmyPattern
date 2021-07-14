@@ -1,9 +1,11 @@
 package com.company.armor_factory.concreteArmorElements.fromChainmail;
 
+import com.company.armor_factory.BaseArmor;
 import com.company.armor_factory.materials.Chainmail;
 
-public class ChainmailLegGuard{
-  public Chainmail chainmail;
+public class ChainmailLegGuard extends BaseArmor {
 
-  public ChainmailLegGuard(){}
+  public ChainmailLegGuard(){
+    super(new Chainmail());
+  }
 }

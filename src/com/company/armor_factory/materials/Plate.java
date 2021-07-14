@@ -4,7 +4,7 @@ import com.company.armor_factory.Material;
 
 public class Plate extends Material {
 
-   protected Plate() {
+   public Plate() {
       super(35);
    }
 }
