@@ -13,6 +13,10 @@ import com.company.armor_factory.compositePattern.lightArmor.LightArmorComposite
 import com.company.armor_factory.materials.Chainmail;
 import com.company.armor_factory.materials.Cloth;
 import com.company.armor_factory.materials.Leather;
+import com.company.shield.IronDecorator;
+import com.company.shield.LeatherDecorator;
+import com.company.shield.Shield;
+import com.company.shield.WoodenShield;
 
 public class Main {
 
@@ -38,13 +42,16 @@ public class Main {
 //        PlateArmorComposite plateArmorSet = new PlateArmorComposite();
 //        System.out.println(plateArmorSet.getTotalArmorHP());
 
-        LightArmorComposite lightArmorSet = new LightArmorComposite(null);
-//        System.out.println(lightArmorSet.toString());
-//        System.out.println(lightArmorSet.getChildren().size());
-          System.out.println(lightArmorSet.getTotalArmorHP());
+//        LightArmorComposite lightArmorSet = new LightArmorComposite(null);
+//////        System.out.println(lightArmorSet.toString());
+//////        System.out.println(lightArmorSet.getChildren().size());
+////          System.out.println(lightArmorSet.getTotalArmorHP());
+////
+////        HeavyArmorComposite heavyArmorSet = new HeavyArmorComposite(null);
+////        System.out.println(heavyArmorSet.getTotalArmorHP());
 
-        HeavyArmorComposite heavyArmorSet = new HeavyArmorComposite(null);
-        System.out.println(heavyArmorSet.getTotalArmorHP());
+        Shield ironShield = new IronDecorator(new LeatherDecorator(new WoodenShield()));
+        System.out.println(ironShield.toString());
 
     }
 }

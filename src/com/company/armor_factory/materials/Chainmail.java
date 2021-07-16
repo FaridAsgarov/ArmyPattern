@@ -6,6 +6,6 @@ public class Chainmail extends Material {
 
 
    public Chainmail() {
-      super(20);
+      super(25);
    }
 }

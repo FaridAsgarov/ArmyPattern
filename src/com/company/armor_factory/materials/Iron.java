@@ -5,6 +5,6 @@ import com.company.armor_factory.Material;
 public class Iron extends Material {
 
   public Iron() {
-    super(25);
+    super(30);
   }
 }

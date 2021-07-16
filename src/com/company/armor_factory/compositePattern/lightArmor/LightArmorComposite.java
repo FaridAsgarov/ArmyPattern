@@ -24,3 +24,4 @@ public class LightArmorComposite extends BaseArmorComposite {
     return totalHP;
   }
 }
+
