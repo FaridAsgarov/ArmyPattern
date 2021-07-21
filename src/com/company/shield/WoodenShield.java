@@ -1,7 +1,6 @@
 package com.company.shield;
 
-import com.company.armor_factory.Material;
-import com.company.armor_factory.materials.Wood;
+import com.company.armor_composite.materials.Wood;
 
 public class WoodenShield extends Shield {
 

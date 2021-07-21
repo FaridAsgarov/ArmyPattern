@@ -1,9 +1,12 @@
 package com.company.shield;
 
-import com.company.armor_factory.Material;
+import com.company.armor_composite.Material;
+import com.company.soldiers.BaseSoldier;
 
 public abstract class Shield {
   public int shieldHP;
+  public int shieldRamMax;
+  public int blockMax;
   Material material;
 
   public Shield(Material material){
@@ -16,12 +19,14 @@ public abstract class Shield {
     return "this Shield is made from " + material.getClass().getName() + ", has " + shieldHP + "HP left";
   }
 
-  public int defendWithShield(int attack) {
-    return shieldHP - attack;
+  public int defendWithShield() {
+    int range = (blockMax) + 1;
+    return (int)(Math.random() * range) + 0;
   }
 
   public int ramWithShield() {
-    return 0;
+    int range = (shieldRamMax) + 1;
+    return (int)(Math.random() * range) + 0;
   }
 
 

@@ -1,7 +1,6 @@
 package com.company.shield;
 
-import com.company.armor_factory.Material;
-import com.company.armor_factory.materials.Leather;
+import com.company.armor_composite.materials.Leather;
 
 public class LeatherDecorator extends Shield{
   private WoodenShield woodenShield;
