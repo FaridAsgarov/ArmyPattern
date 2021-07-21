@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BaseSoldier {
   protected String name;
   protected int baseHP;
-  protected int totalHealthAndArmor;
+  public int totalHealthAndArmor;
   protected BaseArmorComposite armorSet;
   protected Shield shield;
   protected ArrayList<Weapon> weaponArsenal = new ArrayList<>();
@@ -23,7 +23,6 @@ public class BaseSoldier {
       this.armorSet = armorSet;
       this.totalHealthAndArmor = baseHP + armorSet.getTotalArmorHP();
       this.shield = shield;
-      weaponArsenal.add(new Spear(30,20));
   }
 
 
