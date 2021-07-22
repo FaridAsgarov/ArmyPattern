@@ -6,6 +6,7 @@ import com.company.armor_composite.compositePattern.BaseArmorComposite;
 import com.company.shield.Shield;
 import com.company.weapon.Weapon;
 import com.company.weapon.baseWeapons.melee.Spear;
+import com.company.weapon.baseWeapons.ranged.RangedWeapon;
 import java.util.ArrayList;
 
 public class BaseSoldier {
@@ -27,13 +28,15 @@ public class BaseSoldier {
 
 
   public int attack(BaseSoldier enemy) {
-    int dmg = 0;
+    int attack = 0;
     int block = 0;
-    if(enemy.isAlive()){
-      dmg = weaponArsenal.get(0).attack();
-      block = enemy.defend();
 
-      if(dmg>block) {
+    if(enemy.isAlive()){
+      attack = weaponArsenal.get(0).attack();
+      block = enemy.defend();
+      int dmg = attack - block;
+
+      if(dmg>0) {
         enemy.totalHealthAndArmor -= dmg;
         return weaponArsenal.get(0).attack();
       }
@@ -42,15 +45,16 @@ public class BaseSoldier {
   }
 
   public int shieldRam(BaseSoldier enemy){
-    int dmg = 0;
+    int attack = 0;
     int block = 0;
 
     if(shield!=null){
       if(enemy.isAlive()){
-       dmg = shield.ramWithShield();
+       attack = shield.ramWithShield();
        block = enemy.defend();
+       int dmg = attack - block;
 
-       if(dmg>block){
+       if(dmg>0){
         enemy.totalHealthAndArmor -= dmg;
         return shield.ramWithShield();
        }
@@ -60,6 +64,9 @@ public class BaseSoldier {
   }
 
   public int defend() {
+    if(weaponArsenal.get(0) instanceof RangedWeapon){
+      return 0;
+    }
     if(shield==null) {
       return weaponArsenal.get(0).defend();
     }

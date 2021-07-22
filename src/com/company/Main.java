@@ -9,14 +9,16 @@ import com.company.shield.LeatherDecorator;
 import com.company.shield.WoodenShield;
 import com.company.soldiers.BaseSoldier;
 import com.company.soldiers.melee.Spearman;
+import com.company.soldiers.ranged.Bowman;
+import com.company.soldiers.ranged.Crossbowman;
 
 public class Main {
 
     public static void main(String[] args) {
 
-      BaseSoldier fred = new Spearman("fred");
+      BaseSoldier fred = new Bowman("fred");
 
-      BaseSoldier george = new Spearman("george");
+      BaseSoldier george = new Crossbowman("george");
 
       while(fred.isAlive() && george.isAlive()) {
           System.out.println(fred.attack(george));
