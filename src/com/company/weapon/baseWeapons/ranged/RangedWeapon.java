@@ -7,7 +7,7 @@ public class RangedWeapon extends BaseWeapon {
 
   public RangedWeapon(int damageMax) {
     super(damageMax, 0);
-    this.arrowNum = 1;
+    this.arrowNum = 0;
   }
 
   @Override
