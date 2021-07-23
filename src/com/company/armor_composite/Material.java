@@ -16,6 +16,4 @@ public abstract class Material {
     return materialHP;
   }
 
-
-
 }
