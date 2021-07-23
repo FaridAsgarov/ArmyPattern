@@ -1,7 +1,6 @@
 package com.company.shield;
 
 import com.company.armor_composite.Material;
-import com.company.soldiers.BaseSoldier;
 
 public abstract class Shield {
   public int shieldHP;
