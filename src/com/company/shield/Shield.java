@@ -15,7 +15,7 @@ public abstract class Shield {
 
   @Override
   public String toString() {
-    return "this Shield is made from " + material.getClass().getName() + ", has " + shieldHP + "HP left";
+    return "this Shield is made from " + material.getClass().getSimpleName() + ", has " + shieldHP + "HP left";
   }
 
   public int defendWithShield() {
