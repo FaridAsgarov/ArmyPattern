@@ -12,8 +12,8 @@ public class RangedSoldier extends BaseSoldier {
   }
 
   public void reload(){
-    if(weaponArsenal.get(0) instanceof RangedWeapon){
-      ((RangedWeapon) weaponArsenal.get(0)).reload();
+    if(weaponArsenal.get(activeWeaponIndex) instanceof RangedWeapon){
+      ((RangedWeapon) weaponArsenal.get(activeWeaponIndex)).reload();
     }
   }
 

@@ -5,6 +5,7 @@ import com.company.shield.IronDecorator;
 import com.company.shield.LeatherDecorator;
 import com.company.shield.WoodenShield;
 import com.company.soldiers.BaseSoldier;
+import com.company.weapon.baseWeapons.melee.Dagger;
 import com.company.weapon.baseWeapons.melee.Sword;
 
 public class Swordsman extends BaseSoldier {
@@ -13,5 +14,6 @@ public class Swordsman extends BaseSoldier {
     super(name, 100, new IronDecorator(new LeatherDecorator(new WoodenShield())),
         new LamellarArmorComposite());
     weaponArsenal.add(new Sword(50,50));
+    weaponArsenal.add(new Dagger(10,10));
   }
 }

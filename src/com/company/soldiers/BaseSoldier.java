@@ -1,11 +1,8 @@
 package com.company.soldiers;
 
-import com.company.armor_composite.BaseArmor;
-import com.company.armor_composite.Material;
 import com.company.armor_composite.compositePattern.BaseArmorComposite;
 import com.company.shield.Shield;
 import com.company.weapon.Weapon;
-import com.company.weapon.baseWeapons.melee.Spear;
 import com.company.weapon.baseWeapons.ranged.RangedWeapon;
 import java.util.ArrayList;
 
@@ -16,6 +13,7 @@ public class BaseSoldier {
   protected BaseArmorComposite armorSet;
   protected Shield shield;
   protected ArrayList<Weapon> weaponArsenal = new ArrayList<>();
+  public int activeWeaponIndex = 0;
 
   public BaseSoldier(String name, int baseHP, Shield shield, BaseArmorComposite armorSet)
   {
@@ -32,13 +30,13 @@ public class BaseSoldier {
     int block = 0;
 
     if(enemy.isAlive()){
-      attack = weaponArsenal.get(0).attack();
+      attack = weaponArsenal.get(activeWeaponIndex).attack();
       block = enemy.defend();
       int dmg = attack - block;
 
       if(dmg>0) {
         enemy.totalHealthAndArmor -= dmg;
-        return weaponArsenal.get(0).attack();
+        return weaponArsenal.get(activeWeaponIndex).attack();
       }
     }
     return 0;
@@ -64,11 +62,11 @@ public class BaseSoldier {
   }
 
   public int defend() {
-    if(weaponArsenal.get(0) instanceof RangedWeapon){
+    if(weaponArsenal.get(activeWeaponIndex) instanceof RangedWeapon){
       return 0;
     }
     if(shield==null) {
-      return weaponArsenal.get(0).defend();
+      return weaponArsenal.get(activeWeaponIndex).defend();
     }
     return shield.defendWithShield();
   }
@@ -81,5 +79,18 @@ public class BaseSoldier {
     return true;
   }
 
+  public int nextWeapon(){
+    if(activeWeaponIndex+1 >= weaponArsenal.size()) {
+      return activeWeaponIndex=0;
+    }
+    return ++activeWeaponIndex;
+  }
+
+  public int previousWeapon(){
+    if(activeWeaponIndex-1 < 0) {
+      return activeWeaponIndex = weaponArsenal.size() - 1;
+    }
+    return --activeWeaponIndex;
+  }
 
 }
