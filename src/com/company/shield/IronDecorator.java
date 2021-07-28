@@ -13,7 +13,7 @@ public class IronDecorator extends Shield{
 
   @Override
   public String toString() {
-    return "This is " + material.getClass().getName() + "-coated " + leatherDecorator.material.getClass().getName()
+    return "This is " + material.getClass().getSimpleName() + "-coated " + leatherDecorator.material.getClass().getSimpleName()
         +" decorated Wooden shield which has " + shieldHP + "HP left";
   }
 }
