@@ -118,4 +118,8 @@ public class BaseSoldier {
   public double getInitiative() {
     return calcDefaultInitiative() + getLightArmorBonusToInitiative();
   }
+
+  public int getTotalHealthAndArmor(){
+    return this.totalHealthAndArmor;
+  }
 }
