@@ -1,5 +1,6 @@
 package com.company.view;
 
+import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.BaseSoldier;
 import com.company.business_logic.soldiers.melee.Spearman;
 import com.company.business_logic.soldiers.melee.Swordsman;
@@ -133,17 +134,21 @@ public class MainGUIwindow extends JFrame {
         firstPlayerLog.setText("<html>");
         secondPlayerLog.setText("<html>");
 
+        Battle battle = new Battle(firstSoldier,secondSoldier);
+
+
         while(firstSoldier.isAlive() && secondSoldier.isAlive()) {
 
-            firstSoldier.attack(secondSoldier);
-            firstPlayerLog.setText(
-                firstPlayerLog.getText() + "<br/>" + firstSoldierName.getText() + " attacks, " +
-                    secondSoldierName.getText() + " has HP left:"
-                    + secondSoldier.totalHealthAndArmor);
+          battle.AattacksB(firstSoldier,secondSoldier);
+
+          firstPlayerLog.setText(
+              firstPlayerLog.getText() + "<br/>" + firstSoldierName.getText() + " attacks, " +
+                  secondSoldierName.getText() + " has HP left:"
+                  + secondSoldier.totalHealthAndArmor);
 
 
-            secondSoldier.attack(firstSoldier);
-            secondPlayerLog.setText(
+          battle.AattacksB(secondSoldier,firstSoldier);
+          secondPlayerLog.setText(
                 secondPlayerLog.getText() + "<br/>" + secondSoldierName.getText() + " attacks, "
                     + firstSoldierName.getText() + " has HP left:"
                     + firstSoldier.totalHealthAndArmor);

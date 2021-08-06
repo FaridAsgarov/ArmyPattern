@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class Squad {
    ArrayList<BaseSoldier> soldierSquad = new ArrayList<>();
    public String squadName;
-   public int totalHP;
 
    public Squad(String squadName){
      this.squadName = squadName;
@@ -61,5 +60,13 @@ public class Squad {
       totalHP += soldier.getTotalHealthAndArmor();
     }
     return totalHP;
+  }
+
+  public String getName(){
+    return this.squadName;
+  }
+
+  public void setSquadName(String squadName) {
+    this.squadName = squadName;
   }
 }

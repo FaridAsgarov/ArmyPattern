@@ -1,59 +1,38 @@
 package com.company;
 
-import com.company.business_logic.soldiers.melee.Spearman;
-import com.company.business_logic.soldiers.melee.Swordsman;
-import com.company.business_logic.soldiers.ranged.Bowman;
-import com.company.business_logic.soldiers.ranged.Crossbowman;
-import com.company.business_logic.soldiers.squad.Squad;
-import com.company.view.MainGUIwindow;
+import com.company.view.SquadBattleGUI;
 
 public class Main {
 
     public static void main(String[] args) {
+       new SquadBattleGUI();
+   /* DialogBox b= new DialogBox();
+        System.out.println(  b.showDialog());*/
 
-//      new MainGUIwindow();
+//        SwingMenuDemo  swingMenuDemo = new SwingMenuDemo();
+//        swingMenuDemo.showMenuDemo();
 
-        Squad AustrianSquad = new Squad("Austrian");
-        AustrianSquad.addSoldierToTheSquad(new Bowman("A"));
-        AustrianSquad.addSoldierToTheSquad(new Crossbowman("B"));
-        AustrianSquad.addSoldierToTheSquad(new Spearman("C"));
-        AustrianSquad.addSoldierToTheSquad(new Swordsman("D"));
+//      BaseSoldier a = new Bowman("Fred");
+//      BaseSoldier b = new Swordsman("George");
+//
+//      Battle battle = new Battle(a,b);
+//      System.out.println(battle.startBattle(a,b));
 
-        Squad FrenchSquad = new Squad("French");
-        FrenchSquad.addSoldierToTheSquad(new Bowman("A"));
-        FrenchSquad.addSoldierToTheSquad(new Crossbowman("B"));
-        FrenchSquad.addSoldierToTheSquad(new Spearman("C"));
-        FrenchSquad.addSoldierToTheSquad(new Swordsman("D"));
-
-        while(AustrianSquad.isAlive() && FrenchSquad.isAlive()){
-            AustrianSquad.squadAttackEnemySquad(FrenchSquad);
-            System.out.println("Austrian Squad attacked French Squad, French Squad has total HP left: " + FrenchSquad.getTotalHP());
-
-            if(AustrianSquad.isAlive() && !FrenchSquad.isAlive())
-            {
-                System.out.println("Austrian Squad Wins!");
-                break;
-            }
-            if(!AustrianSquad.isAlive() && FrenchSquad.isAlive())
-            {
-                System.out.println("French Squad Wins!");
-                break;
-            }
-
-            FrenchSquad.squadAttackEnemySquad(AustrianSquad);
-            System.out.println("French Squad attacked Austrian Squad, Austrian Squad has total HP left: " + FrenchSquad.getTotalHP());
-
-            if(AustrianSquad.isAlive() && !FrenchSquad.isAlive())
-            {
-                System.out.println("Austrian Squad Wins!");
-                break;
-            }
-            if(!AustrianSquad.isAlive() && FrenchSquad.isAlive())
-            {
-                System.out.println("French Squad Wins!");
-                break;
-            }
-        }
+//        Squad AustrianSquad = new Squad("Austrian Squad");
+//        AustrianSquad.addSoldierToTheSquad(new Bowman("A"));
+//        AustrianSquad.addSoldierToTheSquad(new Crossbowman("B"));
+//        AustrianSquad.addSoldierToTheSquad(new Spearman("C"));
+//        AustrianSquad.addSoldierToTheSquad(new Swordsman("D"));
+//
+//        Squad FrenchSquad = new Squad("French Squad");
+//        FrenchSquad.addSoldierToTheSquad(new Bowman("A"));
+//        FrenchSquad.addSoldierToTheSquad(new Crossbowman("B"));
+//        FrenchSquad.addSoldierToTheSquad(new Spearman("C"));
+//        FrenchSquad.addSoldierToTheSquad(new Swordsman("D"));
+//
+//
+//        Battle battle = new Battle(AustrianSquad,FrenchSquad);
+//        System.out.println(battle.startBattle(AustrianSquad,FrenchSquad));
     }
 }
 

@@ -122,4 +122,8 @@ public class BaseSoldier {
   public int getTotalHealthAndArmor(){
     return this.totalHealthAndArmor;
   }
+
+  public String getName(){
+    return this.name;
+  }
 }
