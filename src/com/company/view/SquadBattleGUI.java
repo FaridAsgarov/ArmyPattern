@@ -2,12 +2,18 @@ package com.company.view;
 
 import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.BaseSoldier;
+import com.company.business_logic.soldiers.SoldierPosition;
 import com.company.business_logic.soldiers.ranged.*;
 import com.company.business_logic.soldiers.melee.*;
 import com.company.business_logic.soldiers.squad.*;
-import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -16,10 +22,10 @@ public class SquadBattleGUI extends JFrame {
   Squad squadB = new Squad("Squad 2");
 
 
-  public SquadBattleGUI(){
-    setSize(1200,1200);
+  public SquadBattleGUI() throws IOException {
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setSize(1200,1255);
     setLayout(null);
-
 
     final JMenuBar menuBar = new JMenuBar();
 
@@ -29,12 +35,14 @@ public class SquadBattleGUI extends JFrame {
 
     JLabel labelForSquad1 = new JLabel("Squad 1 is empty, \n please add soldiers");
     JLabel labelForSquad2 = new JLabel("Squad 2 is empty, \n please add soldiers");
-    labelForSquad1.setBounds(10,20,300,200);
-    labelForSquad2.setBounds(800,20,300,200);
+    labelForSquad1.setBounds(130,20,300,200);
+    labelForSquad2.setBounds(830,20,300,200);
 
-    JLabel battleLog = new JLabel("Battle Log");
-    battleLog.setBounds(400,250,500,500);
-
+    JLabel battleLog = new JLabel();
+    battleLog.setBounds(165,210,850,1200);
+    battleLog.setHorizontalAlignment(SwingConstants.CENTER);
+    battleLog.setVerticalAlignment(SwingConstants.TOP);
+    battleLog.setOpaque(false);
 
     JMenuItem saveBattleResult = new JMenuItem("Save result of battle");
     saveBattleResult.setActionCommand("Save result of battle");
@@ -56,11 +64,10 @@ public class SquadBattleGUI extends JFrame {
     JMenuItem addSwordsman2 = new JMenuItem("Add Swordsman");
 
     JButton startBattle = new JButton("Start battle!");
-    startBattle.setBounds(500,10,150,50);
+    startBattle.setBounds((this.getWidth()/2)-75,10,150,50);
     this.add(startBattle);
 
-    battleLog.setBackground(Color.cyan);
-    battleLog.setOpaque(true);
+
     this.add(battleLog);
 
     this.add(menuBar);
@@ -76,43 +83,49 @@ public class SquadBattleGUI extends JFrame {
     addSoldier.add(addSpearman);
     addSoldier.add(addSwordsman);
 
+
     startBattle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadA.setSquadName(new DialogBox().showDialog("Enter name for Squad 1:"));
-        squadB.setSquadName(new DialogBox().showDialog("Enter name for Squad 2:"));
+        if(squadA.getSoldierSquad().size()!=0 && squadB.getSoldierSquad().size()!=0){
+          squadA.setSquadName(new DialogBox().showDialog("Enter name for Squad 1:"));
+          squadB.setSquadName(new DialogBox().showDialog("Enter name for Squad 2:"));
 
-        Battle battle = new Battle(squadA,squadB);
+          Battle battle = new Battle(squadA,squadB);
 
-        battleLog.setText(battle.startBattleHtml(squadA,squadB));
+          battleLog.setText(battle.startSquadBattleHtml(squadA,squadB));
+       }
+        else{
+          battleLog.setText("Can not start battle if Squads are empty");
+        }
       }
     });
 
     addBowman.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadA.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad1.setText(squadToString(squadA));
       }
     });
     addCrossbowman.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadA.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad1.setText(squadToString(squadA));
       }
     });
     addSpearman.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadA.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad1.setText(squadToString(squadA));
       }
     });
     addSwordsman.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadA.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad1.setText(squadToString(squadA));
       }
     });
@@ -126,28 +139,28 @@ public class SquadBattleGUI extends JFrame {
     addBowman2.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadB.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad2.setText(squadToString(squadB));
       }
     });
     addCrossbowman2.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadB.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad2.setText(squadToString(squadB));
       }
     });
     addSpearman2.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadB.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad2.setText(squadToString(squadB));
       }
     });
     addSwordsman2.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog("Enter name for the soldier:")));
+        squadB.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog("Enter name for the soldier:"),new SoldierPosition(0,0)));
         labelForSquad2.setText(squadToString(squadB));
       }
     });
@@ -157,7 +170,35 @@ public class SquadBattleGUI extends JFrame {
 
     this.setJMenuBar(menuBar);
     menuBar.setVisible(true);
+
+    String path = new File(".").getCanonicalPath();
+    path+= "\\src\\com\\company\\view\\resources\\images\\scrollBackground.png";
+
+    ImageIcon scrollIcon=new ImageIcon(path);
+    Image imageBackground = scrollIcon.getImage().getScaledInstance(1200, 1200, Image.SCALE_SMOOTH);
+
+
+    JTextArea backgroundArea = new JTextArea() {
+
+      Image grayImage = GrayFilter.createDisabledImage(imageBackground);
+      {
+        setOpaque(false);
+      }
+
+      public void paint(Graphics g) {
+        g.drawImage(grayImage, 0, 0, this);
+        super.paint(g);
+      }
+    };
+    backgroundArea.setEditable(false);
+      JScrollPane scrollPane = new JScrollPane(backgroundArea);
+      Container content = this.getContentPane();
+      content.add(scrollPane, BorderLayout.CENTER);
+    backgroundArea.setBounds(0,0, 1600, 1500);
+
+this.add(backgroundArea);
     this.setVisible(true);
+
   }
   private String squadToString(Squad squad){
     String tmp = "<html>Squad consists of following soldiers:";
@@ -167,5 +208,4 @@ public class SquadBattleGUI extends JFrame {
     tmp += "</html>";
     return tmp;
   }
-
 }

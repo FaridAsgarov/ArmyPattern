@@ -59,6 +59,29 @@ public class Battle {
     return battleText;
   }
 
+  public String startSquadBattleHtml(Squad attacker, Squad defender){
+    String battleText = "<html>Battle log:" + "<br>";
+    while(checkForWinner(attacker,defender)==this.continueBattle) {
+      AattacksB(attacker, defender);
+      battleText += attacker.squadAttackEnemySquad(defender) + "<br>";
+
+      if(checkForWinner(attacker,defender)!=this.continueBattle){
+        battleText += checkForWinner(attacker, defender) + "<br>";
+        break;
+      }
+
+      AattacksB(defender, attacker);
+      battleText += defender.squadAttackEnemySquad(attacker) + "<br>";
+
+      if(checkForWinner(attacker,defender)!=this.continueBattle){
+        battleText += checkForWinner(attacker, defender) + "<br>";
+        break;
+      }
+    }
+    battleText += "</html>";
+    return battleText;
+  }
+
   public void startBattleInConsole(Object attacker, Object defender){
     while(checkForWinner(attacker,defender)==this.continueBattle) {
       AattacksB(attacker, defender);

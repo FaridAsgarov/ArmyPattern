@@ -19,27 +19,35 @@ public class Squad {
      soldierSquad.remove(soldier);
    }
 
-   public int squadAttackEnemySoldier(BaseSoldier enemy){
-     int damageSum = 0;
+   public ArrayList<String> squadAttackEnemySoldier(BaseSoldier enemy){
+     ArrayList<String> log = new ArrayList<String>();
      for(BaseSoldier soldier: soldierSquad){
        if(soldier.isAlive()) {
-         damageSum += soldier.attack(enemy);
+         soldier.attack(enemy);
+         log.add(soldier.getClass().getSimpleName() + " " + soldier.getName() + " from squad " + this.getName() +
+             " attacks " + enemy.getClass().getSimpleName() + " " + enemy.getName() +
+             ", " + enemy.getName() + " has " + enemy.getTotalHealthAndArmor() + "HP left;"
+         );
        }
      }
-     return damageSum;
+     return log;
    }
 
-   public int squadAttackEnemySquad(Squad enemySquad){
-     int damageSum = 0;
+   public ArrayList<String> squadAttackEnemySquad(Squad enemySquad){
+     ArrayList<String> log = new ArrayList<String>();
 
      for(BaseSoldier soldier: soldierSquad){
        for(BaseSoldier enemy: enemySquad.getSoldierSquad())
            if(soldier.isAlive()) {
-             damageSum += soldier.attack(enemy);
+             soldier.attack(enemy);
+             log.add(soldier.getClass().getSimpleName() + " " + soldier.getName() + " from squad " + this.getName() +
+                 " attacks " + enemy.getClass().getSimpleName() + " " + enemy.getName() + " from squad " + enemySquad.getName() +
+                 ", " + enemy.getName() + " has " + enemy.getTotalHealthAndArmor() + "HP left;"
+             );
            }
      }
 
-     return damageSum;
+     return log;
    }
 
   public ArrayList<BaseSoldier> getSoldierSquad() {

@@ -2,6 +2,7 @@ package com.company.view;
 
 import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.BaseSoldier;
+import com.company.business_logic.soldiers.SoldierPosition;
 import com.company.business_logic.soldiers.melee.Spearman;
 import com.company.business_logic.soldiers.melee.Swordsman;
 import com.company.business_logic.soldiers.ranged.Bowman;
@@ -16,7 +17,8 @@ public class MainGUIwindow extends JFrame {
   BaseSoldier firstSoldier;
   BaseSoldier secondSoldier;
   String [] getSoldNames(){
-    BaseSoldier soldierType[]= {new Bowman("firstSoldier"), new Crossbowman("firstSoldier"), new Spearman("firstSoldier"), new Swordsman("firstSoldier")};
+    BaseSoldier soldierType[]= {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
+        new Spearman("firstSoldier",new SoldierPosition(0,0)), new Swordsman("firstSoldier",new SoldierPosition(0,0))};
     String []names = new String[soldierType.length];
      for(int i = 0 ; i < soldierType.length; i++){
         names[i] = soldierType[i].getClass().getSimpleName();
@@ -95,8 +97,6 @@ public class MainGUIwindow extends JFrame {
           }
       }
     });
-
-
 
     soldierList.addActionListener(new ActionListener() {
       @Override
@@ -190,10 +190,10 @@ public class MainGUIwindow extends JFrame {
 
   }
   BaseSoldier createNewSoldier(String class_name, String sold_name){
-    if(class_name.equals("Bowman")) return  new Bowman(sold_name);
-    if(class_name.equals("Crossbowman")) return  new Crossbowman(sold_name);
-    if(class_name.equals("Spearman")) return  new Spearman(sold_name);
-    if(class_name.equals("Swordsman")) return  new Swordsman(sold_name);
+    if(class_name.equals("Bowman")) return  new Bowman(sold_name,new SoldierPosition(0,0));
+    if(class_name.equals("Crossbowman")) return  new Crossbowman(sold_name,new SoldierPosition(0,0));
+    if(class_name.equals("Spearman")) return  new Spearman(sold_name,new SoldierPosition(0,0));
+    if(class_name.equals("Swordsman")) return  new Swordsman(sold_name,new SoldierPosition(0,0));
     return null;
   }
 
