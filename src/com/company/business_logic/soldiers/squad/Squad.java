@@ -6,9 +6,27 @@ import java.util.ArrayList;
 public class Squad {
    ArrayList<BaseSoldier> soldierSquad = new ArrayList<>();
    public String squadName;
+   private int activeSoldierIndex;
 
    public Squad(String squadName){
-     this.squadName = squadName;
+    this.squadName = squadName;
+    this.activeSoldierIndex = 0;
+  }
+
+   public BaseSoldier getActiveSoldier() {
+    return soldierSquad.get(this.activeSoldierIndex);
+   }
+
+   public void nextSoldierIndex(){
+     if(this.activeSoldierIndex+1<soldierSquad.size()){
+       this.activeSoldierIndex++;
+     }
+   }
+
+   public void previousSoldierIndex(){
+     if(this.activeSoldierIndex>0){
+       this.activeSoldierIndex--;
+     }
    }
 
    public void addSoldierToTheSquad(BaseSoldier soldier){
