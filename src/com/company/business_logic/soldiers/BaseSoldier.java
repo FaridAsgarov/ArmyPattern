@@ -7,9 +7,13 @@ import com.company.business_logic.armor_composite.compositePattern.lightArmor.Le
 import com.company.business_logic.shield.Shield;
 import com.company.business_logic.weapon.Weapon;
 import com.company.business_logic.weapon.baseWeapons.ranged.RangedWeapon;
+import java.awt.Image;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
-public class BaseSoldier {
+
+
+public class BaseSoldier implements Movable{
   protected String name;
   protected int baseHP;
   public int totalHealthAndArmor;
@@ -17,14 +21,20 @@ public class BaseSoldier {
   protected Shield shield;
   protected ArrayList<Weapon> weaponArsenal = new ArrayList<>();
   public int activeWeaponIndex = 0;
+  private ImageIcon soldierImage;
+  private int imageWidth = 100;
+  private int imageHeight = 100;
+  SoldierPosition soldierPosition;
 
-  public BaseSoldier(String name, int baseHP, Shield shield, BaseArmorComposite armorSet)
+  public BaseSoldier(String name, int baseHP, Shield shield, BaseArmorComposite armorSet, String pathToImage, SoldierPosition soldierPosition)
   {
       this.name = name;
       this.baseHP = baseHP;
       this.armorSet = armorSet;
       this.totalHealthAndArmor = baseHP + armorSet.getTotalArmorHP();
       this.shield = shield;
+      this.soldierImage = new ImageIcon(new ImageIcon(getClass().getResource(pathToImage)).getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT));
+      this.soldierPosition = soldierPosition;
   }
 
 
@@ -117,5 +127,73 @@ public class BaseSoldier {
 
   public double getInitiative() {
     return calcDefaultInitiative() + getLightArmorBonusToInitiative();
+  }
+
+  public int getTotalHealthAndArmor(){
+    return this.totalHealthAndArmor;
+  }
+
+  public String getName(){
+    return this.name;
+  }
+
+  public void setImageHeight(int imageHeight) {
+    this.imageHeight = imageHeight;
+  }
+
+  public void setImageWidth(int imageWidth) {
+    this.imageWidth = imageWidth;
+  }
+
+  public ImageIcon getSoldierImage() {
+    return soldierImage;
+  }
+
+  @Override
+  public void moveUp() {
+    soldierPosition.positionY -= imageHeight;
+  }
+
+  @Override
+  public void moveDown() {
+    soldierPosition.positionY += imageHeight;
+  }
+
+  @Override
+  public void moveLeft() {
+    soldierPosition.positionX -= imageWidth;
+  }
+
+  @Override
+  public void moveRight() {
+    soldierPosition.positionX += imageWidth;
+  }
+
+  @Override
+  public void moveUpAndLeft() {
+    soldierPosition.positionY -= imageHeight;
+    soldierPosition.positionX -= imageWidth;
+  }
+
+  @Override
+  public void moveUpAndRight() {
+    soldierPosition.positionY -= imageHeight;
+    soldierPosition.positionX += imageWidth;
+  }
+
+  @Override
+  public void moveDownAndLeft() {
+    soldierPosition.positionY += imageHeight;
+    soldierPosition.positionX -= imageWidth;
+  }
+
+  @Override
+  public void moveDownAndRight() {
+    soldierPosition.positionY += imageHeight;
+    soldierPosition.positionX += imageWidth;
+  }
+
+  public SoldierPosition getSoldierPosition() {
+    return soldierPosition;
   }
 }
