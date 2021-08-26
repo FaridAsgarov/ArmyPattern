@@ -24,7 +24,7 @@ public class SquadBattleGUI extends JFrame {
 
   public SquadBattleGUI() throws IOException {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(1200,1255);
+    setSize(1000,1055);
     setLayout(null);
 
     final JMenuBar menuBar = new JMenuBar();
@@ -72,7 +72,7 @@ public class SquadBattleGUI extends JFrame {
 
     this.add(menuBar);
     this.add(labelForSquad1);
-    this.add(labelForSquad2);
+    System.out.println(this.add(labelForSquad2));
     menuBar.add(fileMenu);
     menuBar.add(squad1);
     menuBar.add(squad2);

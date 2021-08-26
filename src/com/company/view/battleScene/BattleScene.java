@@ -11,6 +11,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
@@ -21,89 +22,80 @@ import javax.swing.KeyStroke;
 
 public class BattleScene extends JFrame implements KeyListener {
   Squad squadA = new Squad("Red");
+  Squad squadB = new Squad("Blue");
   JPanel myPanel;
   public BattleScene(){
-    this.setSize(1225,1248);
+    this.setSize(1228,1250);
 
-    JLabel soldier1 = new JLabel();
-    BaseSoldier soldierA = new Spearman("Fedya",new SoldierPosition(8,8));
-    soldier1.setIcon(soldierA.getSoldierImage());
+    squadA.addSoldierToTheSquad(new Spearman("Fedya",new SoldierPosition(8,8)));
+    squadA.addSoldierToTheSquad(new Crossbowman("Grisha",new SoldierPosition(8,108)));
+    squadA.addSoldierToTheSquad(new Swordsman("Vasya",new SoldierPosition(8,208)));
+    squadA.addSoldierToTheSquad(new Bowman("Legolas",new SoldierPosition(8,308)));
 
-    JLabel soldier2 = new JLabel();
-    BaseSoldier soldierB = new Crossbowman("Grisha",new SoldierPosition(1108,1108));
-    soldier2.setIcon(soldierB.getSoldierImage());
-
-    JLabel soldier3 = new JLabel();
-    BaseSoldier soldierC = new Swordsman("Vasya",new SoldierPosition(1108,8));
-    soldier3.setIcon(soldierC.getSoldierImage());
-
-    JLabel soldier4 = new JLabel();
-    BaseSoldier soldierD = new Bowman("Legolas",new SoldierPosition(8,1108));
-    soldier4.setIcon(soldierD.getSoldierImage());
-
-    squadA.addSoldierToTheSquad(soldierA);
-    squadA.addSoldierToTheSquad(soldierB);
-    squadA.addSoldierToTheSquad(soldierC);
-    squadA.addSoldierToTheSquad(soldierD);
+    squadB.addSoldierToTheSquad(new Spearman("Evil Fedya",new SoldierPosition(508,8)));
+    squadB.addSoldierToTheSquad(new Crossbowman("Evil Grisha",new SoldierPosition(1108,108)));
+    squadB.addSoldierToTheSquad(new Swordsman("Evil Vasya",new SoldierPosition(1108,208)));
+    squadB.addSoldierToTheSquad(new Bowman("Evil Legolas",new SoldierPosition(1108,308)));
 
 
-    soldier1.setBounds(squadA.getActiveSoldier().getSoldierPosition().positionX,
-        squadA.getActiveSoldier().getSoldierPosition().positionY,
-        100,100);
-    squadA.nextSoldierIndex();
-    soldier2.setBounds(squadA.getActiveSoldier().getSoldierPosition().positionX,
-        squadA.getActiveSoldier().getSoldierPosition().positionY,
-        100,100);
-    squadA.nextSoldierIndex();
-    soldier3.setBounds(squadA.getActiveSoldier().getSoldierPosition().positionX,
-        squadA.getActiveSoldier().getSoldierPosition().positionY,
-        100,100);
-    squadA.nextSoldierIndex();
-    soldier4.setBounds(squadA.getActiveSoldier().getSoldierPosition().positionX,
-        squadA.getActiveSoldier().getSoldierPosition().positionY,
-        100,100);
-    squadA.previousSoldierIndex();
 
-    soldier1.setBounds(soldierA.getSoldierPosition().positionX,soldierA.getSoldierPosition().positionY,100,100);
-    soldier2.setBounds(soldierB.getSoldierPosition().positionX,soldierB.getSoldierPosition().positionY,100,100);
-    soldier3.setBounds(soldierC.getSoldierPosition().positionX,soldierC.getSoldierPosition().positionY,100,100);
-    soldier4.setBounds(soldierD.getSoldierPosition().positionX,soldierD.getSoldierPosition().positionY,100,100);
-
-    this.add(soldier1);
-    this.add(soldier2);
-    this.add(soldier3);
-    this.add(soldier4);
-
-    System.out.println(soldier1.getParent().getClass().getSimpleName());
-     myPanel = new JPanel() {
+    myPanel = new JPanel() {
       protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        int yIncrement;
-        int xIncrement;
-        for(yIncrement = 8; yIncrement <=1208; yIncrement += 100){
-          g2.drawLine(8, yIncrement, 1208, yIncrement);
-        }
-        for(xIncrement = 8; xIncrement <=1208; xIncrement += 100){
-          g2.drawLine(xIncrement,8, xIncrement,1208);
+
+        for (int i = 8 ; i < 1275; i+= 100){
+          for(int j = 8 ; j < 1275; j+= 100){
+            g2.drawLine(8 , i , 1208 , i);
+            g2.drawLine(j , 8 , j , 1208);
+          }
         }
 
         g2.setColor(Color.RED);
         g2.setStroke(new BasicStroke(8));
-
         g2.drawRect(squadA.getActiveSoldier().getSoldierPosition().positionX-2,squadA.getActiveSoldier().getSoldierPosition().positionY-2,104,104);
+
+        g2.setColor(Color.BLUE);
+        g2.setStroke(new BasicStroke(8));
+        g2.drawRect(squadB.getActiveSoldier().getSoldierPosition().positionX-2,squadB.getActiveSoldier().getSoldierPosition().positionY-2,104,104);
 
       }
     };
+    myPanel.setName("myPanel");
+    myPanel.setLayout(null);
+    for (int i = 0; i < squadA.getSoldierCount(); i++) {
+      myPanel.add(new JLabel(squadA.getSoldier(i).getSoldierImage()));
+      myPanel.getComponents()[i].setName(squadA.getSoldier(i).getName() + "_JLabel");
+      myPanel.getComponents()[i].setBounds(
+          squadA.getSoldier(i).getSoldierPosition().positionX,
+          squadA.getSoldier(i).getSoldierPosition().positionY,
+          100, 100);
+      myPanel.getComponents()[i].setBackground(Color.red);
+
+      myPanel.repaint();
+
+    }
+    for (int i = 0; i < squadB.getSoldierCount(); i++){
+      myPanel.add(new JLabel(squadB.getSoldier(i).getSoldierImage()));
+      myPanel.getComponents()[squadB.getSoldierCount() + i].setName(squadB.getSoldier(i).getName() + "_JLabel2");
+      myPanel.getComponents()[squadB.getSoldierCount() + i].setBounds(
+          squadB.getSoldier(i).getSoldierPosition().positionX,
+          squadB.getSoldier(i).getSoldierPosition().positionY,
+          100,100);
+      myPanel.getComponents()[squadB.getSoldierCount() + i].setBackground(Color.blue);
+
+      myPanel.repaint();
+    }
 
 
+    this.repaint();
+    myPanel.repaint();
     this.add(myPanel);
+
+
+
     this.update(this.getGraphics());
-    this.update(myPanel.getGraphics());
-    soldier1.setVisible(true);
-    soldier2.setVisible(true);
-    myPanel.setVisible(true);
-    myPanel.setOpaque(true);
+
 
     this.setVisible(true);
     this.addKeyListener(this);
@@ -114,48 +106,64 @@ public class BattleScene extends JFrame implements KeyListener {
 }
   @Override
   public void keyTyped(KeyEvent e) {
-    System.out.println("keyTyped");
   }
-
   @Override
   public void keyPressed(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_RIGHT){
-      squadA.nextSoldierIndex();
-      this.repaint();
-    }
-    else if (e.getKeyCode() == KeyEvent.VK_LEFT){
-      squadA.previousSoldierIndex();
-      this.repaint();
-    }
-    else if (e.getKeyCode() == KeyEvent.VK_W){
-      squadA.getActiveSoldier().moveUp();
-      System.out.println(((JLayeredPane) this.rootPane.getComponents()[0]).getComponents().length
+    if(e.isAltDown())
+     {
+       if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+         squadB.nextSoldierIndex();
+       } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+         squadB.previousSoldierIndex();
+       } else if (e.getKeyCode() == KeyEvent.VK_W) {
+         squadB.getActiveSoldier().moveUp();
+       } else if (e.getKeyCode() == KeyEvent.VK_A) {
+         squadB.getActiveSoldier().moveLeft();
+       } else if (e.getKeyCode() == KeyEvent.VK_D) {
+         squadB.getActiveSoldier().moveRight();
+       } else if (e.getKeyCode() == KeyEvent.VK_S) {
+         squadB.getActiveSoldier().moveDown();
 
-      );
-//      this.getComponentAt(
-//          squadA.getActiveSoldier().getSoldierPosition().positionX, squadA.getActiveSoldier().getSoldierPosition().positionY)
-//          .setBounds(squadA.getActiveSoldier().getSoldierPosition().positionX, squadA.getActiveSoldier().getSoldierPosition().positionY, 100, 100);
-      this.repaint();
+       }
+       myPanel.getComponent(squadB.getActiveSoldierIndex() + squadB.getSoldierCount()).setBounds(
+           squadB.getActiveSoldier().getSoldierPosition().positionX,
+           squadB.getActiveSoldier().getSoldierPosition().positionY,
+           100, 100);
+
+     }
+    else {
+     if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        squadA.nextSoldierIndex();
+      } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        squadA.previousSoldierIndex();
+      } else if (e.getKeyCode() == KeyEvent.VK_W) {
+        squadA.getActiveSoldier().moveUp();
+      } else if (e.getKeyCode() == KeyEvent.VK_A) {
+        squadA.getActiveSoldier().moveLeft();
+      } else if (e.getKeyCode() == KeyEvent.VK_D) {
+        squadA.getActiveSoldier().moveRight();
+      } else if (e.getKeyCode() == KeyEvent.VK_S) {
+        squadA.getActiveSoldier().moveDown();
+
+      }
+      myPanel.getComponent(squadA.getActiveSoldierIndex()).setBounds(
+          squadA.getActiveSoldier().getSoldierPosition().positionX,
+          squadA.getActiveSoldier().getSoldierPosition().positionY,
+          100, 100);
+//new Rectangle()
+//      Rectangle r = new Rectangle(squadA.getActiveSoldier().getSoldierPosition().positionX,
+//          squadA.getActiveSoldier().getSoldierPosition().positionY);
+//      r.intersects()
     }
-    else if (e.getKeyCode() == KeyEvent.VK_A){
-      squadA.getActiveSoldier().moveLeft();
-      this.repaint();
-    }
-    else if (e.getKeyCode() == KeyEvent.VK_D){
-      squadA.getActiveSoldier().moveRight();
-      this.repaint();
-    }
-    else if (e.getKeyCode() == KeyEvent.VK_S){
-      squadA.getActiveSoldier().moveDown();
-      this.repaint();
-    }
+//    System.out.println(squadA.getActiveSoldierIndex());
+    this.repaint();
   }
-
+  @Override
   public void keyReleased(KeyEvent e) {
-    if (e.getKeyCode() == KeyEvent.VK_RIGHT)
-      squadA.nextSoldierIndex();
-    else if (e.getKeyCode() == KeyEvent.VK_LEFT)
-      squadA.previousSoldierIndex();
+//    if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+//      squadA.nextSoldierIndex();
+//    else if (e.getKeyCode() == KeyEvent.VK_LEFT)
+//      squadA.previousSoldierIndex();
   }
 
 }
