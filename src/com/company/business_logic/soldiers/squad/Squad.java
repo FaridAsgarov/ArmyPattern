@@ -18,15 +18,17 @@ public class Squad {
    }
 
    public void nextSoldierIndex(){
-     if(this.activeSoldierIndex+1<soldierSquad.size()){
+//       System.out.println(this.activeSoldierIndex);
+     if(this.activeSoldierIndex + 1 <soldierSquad.size() ){
        this.activeSoldierIndex++;
      }
    }
 
    public void previousSoldierIndex(){
-     if(this.activeSoldierIndex>0){
-       this.activeSoldierIndex--;
-     }
+       if(this.activeSoldierIndex>0){
+            this.activeSoldierIndex--;
+        }
+
    }
 
    public void addSoldierToTheSquad(BaseSoldier soldier){
@@ -37,7 +39,20 @@ public class Squad {
      soldierSquad.remove(soldier);
    }
 
-   public ArrayList<String> squadAttackEnemySoldier(BaseSoldier enemy){
+    public int getActiveSoldierIndex() {
+        System.out.println(this.activeSoldierIndex);
+        return activeSoldierIndex;
+    }
+
+    public BaseSoldier getSoldier(int index) {
+            return soldierSquad.get(index);
+    }
+
+    public int getSoldierCount(){
+       return soldierSquad.size();
+    }
+
+    public ArrayList<String> squadAttackEnemySoldier(BaseSoldier enemy){
      ArrayList<String> log = new ArrayList<String>();
      for(BaseSoldier soldier: soldierSquad){
        if(soldier.isAlive()) {
