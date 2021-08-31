@@ -7,4 +7,5 @@ public class SoldierPosition {
     this.positionX = positionX;
     this.positionY = positionY;
   }
+
 }

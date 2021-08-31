@@ -11,14 +11,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 
 public class BattleScene extends JFrame implements KeyListener {
   Squad squadA = new Squad("Red");
@@ -32,11 +29,10 @@ public class BattleScene extends JFrame implements KeyListener {
     squadA.addSoldierToTheSquad(new Swordsman("Vasya",new SoldierPosition(8,208)));
     squadA.addSoldierToTheSquad(new Bowman("Legolas",new SoldierPosition(8,308)));
 
-    squadB.addSoldierToTheSquad(new Spearman("Evil Fedya",new SoldierPosition(508,8)));
+    squadB.addSoldierToTheSquad(new Spearman("Evil Fedya",new SoldierPosition(1108,8)));
     squadB.addSoldierToTheSquad(new Crossbowman("Evil Grisha",new SoldierPosition(1108,108)));
     squadB.addSoldierToTheSquad(new Swordsman("Evil Vasya",new SoldierPosition(1108,208)));
     squadB.addSoldierToTheSquad(new Bowman("Evil Legolas",new SoldierPosition(1108,308)));
-
 
 
     myPanel = new JPanel() {
@@ -117,13 +113,28 @@ public class BattleScene extends JFrame implements KeyListener {
          squadB.previousSoldierIndex();
        } else if (e.getKeyCode() == KeyEvent.VK_W) {
          squadB.getActiveSoldier().moveUp();
+         if(squadB.isSpaceOccupied(squadA)){
+           squadB.getActiveSoldier().moveDown();
+         }
+         squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
        } else if (e.getKeyCode() == KeyEvent.VK_A) {
          squadB.getActiveSoldier().moveLeft();
+         if(squadB.isSpaceOccupied(squadA)){
+           squadB.getActiveSoldier().moveRight();
+         }
+         squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
        } else if (e.getKeyCode() == KeyEvent.VK_D) {
          squadB.getActiveSoldier().moveRight();
+         if(squadB.isSpaceOccupied(squadA)){
+           squadB.getActiveSoldier().moveLeft();
+         }
+         squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
        } else if (e.getKeyCode() == KeyEvent.VK_S) {
          squadB.getActiveSoldier().moveDown();
-
+         if(squadB.isSpaceOccupied(squadA)){
+           squadB.getActiveSoldier().moveUp();
+         }
+         squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
        }
        myPanel.getComponent(squadB.getActiveSoldierIndex() + squadB.getSoldierCount()).setBounds(
            squadB.getActiveSoldier().getSoldierPosition().positionX,
@@ -138,24 +149,37 @@ public class BattleScene extends JFrame implements KeyListener {
         squadA.previousSoldierIndex();
       } else if (e.getKeyCode() == KeyEvent.VK_W) {
         squadA.getActiveSoldier().moveUp();
+       if(squadA.isSpaceOccupied(squadB)){
+         squadA.getActiveSoldier().moveDown();
+       }
+        squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
       } else if (e.getKeyCode() == KeyEvent.VK_A) {
         squadA.getActiveSoldier().moveLeft();
+       if(squadA.isSpaceOccupied(squadB)){
+         squadA.getActiveSoldier().moveRight();
+       }
+        squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
       } else if (e.getKeyCode() == KeyEvent.VK_D) {
         squadA.getActiveSoldier().moveRight();
+       if(squadA.isSpaceOccupied(squadB)){
+         squadA.getActiveSoldier().moveLeft();
+       }
+        squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
       } else if (e.getKeyCode() == KeyEvent.VK_S) {
         squadA.getActiveSoldier().moveDown();
-
+       if(squadA.isSpaceOccupied(squadB)){
+         squadA.getActiveSoldier().moveUp();
+       }
+        squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 1108);
       }
       myPanel.getComponent(squadA.getActiveSoldierIndex()).setBounds(
           squadA.getActiveSoldier().getSoldierPosition().positionX,
           squadA.getActiveSoldier().getSoldierPosition().positionY,
           100, 100);
-//new Rectangle()
-//      Rectangle r = new Rectangle(squadA.getActiveSoldier().getSoldierPosition().positionX,
-//          squadA.getActiveSoldier().getSoldierPosition().positionY);
-//      r.intersects()
+
     }
 //    System.out.println(squadA.getActiveSoldierIndex());
+    removeDeadSoldierLabels();
     this.repaint();
   }
   @Override
@@ -165,5 +189,30 @@ public class BattleScene extends JFrame implements KeyListener {
 //    else if (e.getKeyCode() == KeyEvent.VK_LEFT)
 //      squadA.previousSoldierIndex();
   }
-
+  public void removeDeadSoldierLabels(){
+    for(int i = 0 ; i < squadA.getSoldierCount(); i++){
+      if(!squadA.getSoldier(i).isAlive() ){
+        myPanel.remove(myPanel.getComponent(i));
+        squadA.removeSoldierFromTheSquad(squadA.getSoldier(i));
+        squadA.setSoldierIndex(0);
+      }
+    }
+    for(int i = 0 ; i < squadB.getSoldierCount(); i++){
+      if(!squadB.getSoldier(i).isAlive() ){
+        myPanel.remove(myPanel.getComponent(i+squadB.getSoldierCount()));
+        squadB.removeSoldierFromTheSquad(squadB.getSoldier(i));
+        squadB.setSoldierIndex(0);
+      }
+    }
+    if(squadA.getSoldierCount()==0 || squadB.getSoldierCount()==0){
+      if(squadA.getSoldierCount()==0){
+        System.out.println("Game over, "+ squadB.getName() + " won!");
+      }
+      else {
+        System.out.println("Game over, "+ squadA.getName() + " won!");
+      }
+      this.dispose();
+    }
+    repaint();
+  }
 }
