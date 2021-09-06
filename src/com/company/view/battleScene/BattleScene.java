@@ -1,15 +1,15 @@
 package com.company.view.battleScene;
 
-import com.company.business_logic.soldiers.BaseSoldier;
 import com.company.business_logic.soldiers.SoldierPosition;
 import com.company.business_logic.soldiers.melee.Spearman;
 import com.company.business_logic.soldiers.melee.Swordsman;
 import com.company.business_logic.soldiers.ranged.Bowman;
 import com.company.business_logic.soldiers.ranged.Crossbowman;
 import com.company.business_logic.soldiers.squad.Squad;
+import com.company.view.EndingScreen;
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -178,7 +178,6 @@ public class BattleScene extends JFrame implements KeyListener {
           100, 100);
 
     }
-//    System.out.println(squadA.getActiveSoldierIndex());
     removeDeadSoldierLabels();
     this.repaint();
   }
@@ -206,10 +205,10 @@ public class BattleScene extends JFrame implements KeyListener {
     }
     if(squadA.getSoldierCount()==0 || squadB.getSoldierCount()==0){
       if(squadA.getSoldierCount()==0){
-        System.out.println("Game over, "+ squadB.getName() + " won!");
+       new EndingScreen(squadB.getName());
       }
       else {
-        System.out.println("Game over, "+ squadA.getName() + " won!");
+        new EndingScreen(squadA.getName());
       }
       this.dispose();
     }

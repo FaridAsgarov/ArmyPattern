@@ -211,5 +211,4 @@ public class BaseSoldier implements Movable{
       soldierPosition.positionY = maxY;
     }
   }
-
 }
