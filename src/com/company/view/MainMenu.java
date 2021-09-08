@@ -1,14 +1,23 @@
 package com.company.view;
 
+import com.company.view.battleScene.BattleScene;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
+  BackgroundMusicRunnable backgroundMusicRunnable = new BackgroundMusicRunnable();
   public MainMenu(){
     this.setSize(800,800);
+
+    Thread myThread = new Thread(backgroundMusicRunnable);
+    myThread.setDaemon(true);
+    myThread.start();
 
     JButton startSoldierAutoBattle = new JButton("Start Soldier Vs Soldier AutoBattle!");
     JButton startSquadAutoBattle = new JButton("Start Squad vs Squad AutoBattle!");
@@ -33,25 +42,40 @@ public class MainMenu extends JFrame {
     exitButton.setHorizontalAlignment(SwingConstants.CENTER);
     exitButton.setOpaque(true);
 
+    addWindowListener(new WindowAdapter()
+    {
+      @Override
+      public void windowClosing(WindowEvent e)
+      {
+        myThread.stop();
+        myThread.interrupt();
+        e.getWindow().dispose();
+      }
+    });
+
 
     startSoldierAutoBattle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-
+        new MainGUIwindow();
       }
     });
 
     startSquadAutoBattle.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-
+        try {
+          new SquadBattleGUI();
+        } catch (IOException ioException) {
+          ioException.printStackTrace();
+        }
       }
     });
 
     startBattleScene.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-
+          new BattleScene();
       }
     });
 

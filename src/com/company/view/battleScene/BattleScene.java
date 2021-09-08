@@ -23,15 +23,9 @@ import javax.swing.JPanel;
 public class BattleScene extends JFrame implements KeyListener {
   Squad squadA = new Squad("Red");
   Squad squadB = new Squad("Blue");
-  BackgroundMusicRunnable backgroundMusicRunnable = new BackgroundMusicRunnable();
   JPanel myPanel;
   public BattleScene(){
     this.setSize(1228,1250);
-
-
-    Thread myThread = new Thread(backgroundMusicRunnable);
-    myThread.setDaemon(true);
-    myThread.start();
 
     squadA.addSoldierToTheSquad(new Spearman("Fedya",new SoldierPosition(8,8)));
     squadA.addSoldierToTheSquad(new Crossbowman("Grisha",new SoldierPosition(8,108)));
@@ -98,7 +92,6 @@ public class BattleScene extends JFrame implements KeyListener {
     this.add(myPanel);
 
 
-
     this.update(this.getGraphics());
 
 
@@ -107,16 +100,6 @@ public class BattleScene extends JFrame implements KeyListener {
     setFocusable(true);
     setFocusTraversalKeysEnabled(false);
 
-    addWindowListener(new WindowAdapter()
-    {
-      @Override
-      public void windowClosing(WindowEvent e)
-      {
-        myThread.stop();
-        myThread.interrupt();
-        e.getWindow().dispose();
-      }
-    });
 
 //    this.show();
 }
