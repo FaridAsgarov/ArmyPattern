@@ -1,5 +1,6 @@
 package com.company.business_logic.soldiers.squad;
 
+import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.BaseSoldier;
 import java.util.ArrayList;
 
@@ -31,6 +32,10 @@ public class Squad {
 
    }
 
+   public void setSoldierIndex(int i){
+     this.activeSoldierIndex = i;
+   }
+
    public void addSoldierToTheSquad(BaseSoldier soldier){
      soldierSquad.add(soldier);
    }
@@ -40,7 +45,7 @@ public class Squad {
    }
 
     public int getActiveSoldierIndex() {
-        System.out.println(this.activeSoldierIndex);
+//        System.out.println(this.activeSoldierIndex);
         return activeSoldierIndex;
     }
 
@@ -110,4 +115,37 @@ public class Squad {
   public void setSquadName(String squadName) {
     this.squadName = squadName;
   }
+
+  public int getX(){
+   return getActiveSoldier().getSoldierPosition().positionX;
+  }
+
+  public int getY(){
+    return getActiveSoldier().getSoldierPosition().positionY;
+  }
+
+  public boolean isSpaceOccupied(Squad enemySquad){
+    boolean isOccupied = false;
+
+    for (BaseSoldier soldier: soldierSquad){
+      if(getActiveSoldier().getSoldierPosition().positionX == soldier.getSoldierPosition().positionX
+          && getActiveSoldier().getSoldierPosition().positionY == soldier.getSoldierPosition().positionY && getActiveSoldier().getName()!= soldier
+          .getName()){
+        isOccupied = true;
+      }
+    }
+
+    for(BaseSoldier enemy: enemySquad.getSoldierSquad()){
+      if(getActiveSoldier().getSoldierPosition().positionX == enemy.getSoldierPosition().positionX
+          && getActiveSoldier().getSoldierPosition().positionY == enemy.getSoldierPosition().positionY){
+        isOccupied = true;
+
+        Battle battle = new Battle(getActiveSoldier(),enemy);
+        battle.startBattleInConsole(getActiveSoldier(),enemy);
+
+      }
+    }
+    return isOccupied;
+  }
+
 }

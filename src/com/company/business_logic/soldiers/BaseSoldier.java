@@ -196,4 +196,19 @@ public class BaseSoldier implements Movable{
   public SoldierPosition getSoldierPosition() {
     return soldierPosition;
   }
+
+  public void checkBoundaries(int minX, int maxX, int minY, int maxY){
+    if(soldierPosition.positionX < minX){
+      soldierPosition.positionX = minX;
+    }
+    if(soldierPosition.positionX > maxX){
+      soldierPosition.positionX = maxX;
+    }
+    if(soldierPosition.positionY < minY){
+      soldierPosition.positionY = minY;
+    }
+    if(soldierPosition.positionY > maxY){
+      soldierPosition.positionY = maxY;
+    }
+  }
 }
