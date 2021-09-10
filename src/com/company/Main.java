@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.view.EndingScreen;
 import com.company.view.MainGUIwindow;
 import com.company.view.MainMenu;
 import com.company.view.MenuSound;
@@ -10,9 +11,9 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-//
-//     new BattleScene();
+
      new MainMenu();
+//      new EndingScreen("Red");
 
     }
 }

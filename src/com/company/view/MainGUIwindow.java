@@ -26,6 +26,9 @@ public class MainGUIwindow extends JFrame {
     return names;
   }
   public MainGUIwindow(){
+    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
+    this.setIconImage(logo.getImage());
+
     JButton b = new JButton("Fight!");
     JLabel firstPlayerLog=new JLabel("<html>");
     JLabel secondPlayerLog=new JLabel("<html>");

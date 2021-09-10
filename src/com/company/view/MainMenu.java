@@ -1,19 +1,28 @@
 package com.company.view;
 
 import com.company.view.battleScene.BattleScene;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
   BackgroundMusicRunnable backgroundMusicRunnable = new BackgroundMusicRunnable();
   public MainMenu(){
     this.setSize(800,800);
+
+    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
+    this.setIconImage(logo.getImage());
 
     Thread myThread = new Thread(backgroundMusicRunnable);
     myThread.setDaemon(true);
@@ -23,8 +32,6 @@ public class MainMenu extends JFrame {
     JButton startSquadAutoBattle = new JButton("Start Squad vs Squad AutoBattle!");
     JButton startBattleScene = new JButton("Start Squad vs Squad Manual Battle!");
     JButton exitButton = new JButton("Exit");
-
-    this.setLayout(null);
 
     startSoldierAutoBattle.setBounds(250,200,300,30);
     startSoldierAutoBattle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -42,13 +49,33 @@ public class MainMenu extends JFrame {
     exitButton.setHorizontalAlignment(SwingConstants.CENTER);
     exitButton.setOpaque(true);
 
+    JPanel myPanel = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        BufferedImage image = null;
+        try {
+          image = ImageIO.read(new File("src/com/company/view/resources/images/battleBackground.jpg"));
+
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        g.drawImage(image, 0, 0, this);
+      }
+    };
+
+    myPanel.add(startSoldierAutoBattle);
+    myPanel.add(startSquadAutoBattle);
+    myPanel.add(startBattleScene);
+    myPanel.add(exitButton);
+
     addWindowListener(new WindowAdapter()
     {
       @Override
       public void windowClosing(WindowEvent e)
       {
-        myThread.stop();
-        myThread.interrupt();
+//        myThread.stop();
+//        myThread.interrupt();
         e.getWindow().dispose();
       }
     });
@@ -86,10 +113,8 @@ public class MainMenu extends JFrame {
       }
     });
 
-    this.add(startSoldierAutoBattle);
-    this.add(startSquadAutoBattle);
-    this.add(startBattleScene);
-    this.add(exitButton);
+    this.add(myPanel);
+    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setVisible(true);
   }
