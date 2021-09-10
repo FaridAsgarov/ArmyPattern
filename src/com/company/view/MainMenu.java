@@ -74,8 +74,8 @@ public class MainMenu extends JFrame {
       @Override
       public void windowClosing(WindowEvent e)
       {
-//        myThread.stop();
-//        myThread.interrupt();
+        myThread.stop();
+        myThread.interrupt();
         e.getWindow().dispose();
       }
     });

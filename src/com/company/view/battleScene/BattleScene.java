@@ -1,5 +1,7 @@
 package com.company.view.battleScene;
 
+import com.company.business_logic.battle_logic.Battle;
+import com.company.business_logic.soldiers.BaseSoldier;
 import com.company.business_logic.soldiers.SoldierPosition;
 import com.company.business_logic.soldiers.melee.Spearman;
 import com.company.business_logic.soldiers.melee.Swordsman;
@@ -25,6 +27,7 @@ public class BattleScene extends JFrame implements KeyListener {
   Squad squadB = new Squad("Blue");
   JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
   JPanel myPanel;
+
   public BattleScene(){
     ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
     this.setIconImage(logo.getImage());
@@ -42,7 +45,7 @@ public class BattleScene extends JFrame implements KeyListener {
     squadB.addSoldierToTheSquad(new Bowman("Evil Legolas",new SoldierPosition(1108,308)));
 
 
-    battleLog.setBounds(320,528,500,600);
+    battleLog.setBounds(320,528,700,900);
     battleLog.setHorizontalAlignment(SwingConstants.CENTER);
     battleLog.setVerticalAlignment(SwingConstants.TOP);
     battleLog.setFont(new Font("Serif", Font.BOLD, 20));
@@ -127,25 +130,49 @@ public class BattleScene extends JFrame implements KeyListener {
          squadB.previousSoldierIndex();
        } else if (e.getKeyCode() == KeyEvent.VK_W) {
          squadB.getActiveSoldier().moveUp();
-         if(squadB.isSpaceOccupied(squadA)){
+         if(squadB.isSpaceOccupiedByEnemy(squadA)){
+           Battle battle = new Battle(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA));
+           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA)));
+         }
+         if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveDown();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_A) {
          squadB.getActiveSoldier().moveLeft();
-         if(squadB.isSpaceOccupied(squadA)){
+         if(squadB.isSpaceOccupiedByEnemy(squadA)){
+           Battle battle = new Battle(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA));
+           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA)));
+         }
+         if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveRight();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_D) {
          squadB.getActiveSoldier().moveRight();
-         if(squadB.isSpaceOccupied(squadA)){
+         if(squadB.isSpaceOccupiedByEnemy(squadA)){
+           Battle battle = new Battle(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA));
+           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA)));
+         }
+         if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveLeft();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_S) {
          squadB.getActiveSoldier().moveDown();
-         if(squadB.isSpaceOccupied(squadA)){
+         if(squadB.isSpaceOccupiedByEnemy(squadA)){
+           Battle battle = new Battle(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA));
+           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
+               squadB.returnEnemyWhoOccupiedSpace(squadA)));
+         }
+         if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveUp();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
@@ -161,27 +188,52 @@ public class BattleScene extends JFrame implements KeyListener {
         squadA.nextSoldierIndex();
       } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
         squadA.previousSoldierIndex();
-      } else if (e.getKeyCode() == KeyEvent.VK_W) {
+      }
+     else if (e.getKeyCode() == KeyEvent.VK_W) {
         squadA.getActiveSoldier().moveUp();
-       if(squadA.isSpaceOccupied(squadB)){
+       if(squadA.isSpaceOccupiedByEnemy(squadB)){
+         Battle battle = new Battle(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB));
+         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB)));
+       }
+       if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveDown();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_A) {
         squadA.getActiveSoldier().moveLeft();
-       if(squadA.isSpaceOccupied(squadB)){
+       if(squadA.isSpaceOccupiedByEnemy(squadB)){
+         Battle battle = new Battle(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB));
+         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB)));
+       }
+       if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveRight();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_D) {
         squadA.getActiveSoldier().moveRight();
-       if(squadA.isSpaceOccupied(squadB)){
+       if(squadA.isSpaceOccupiedByEnemy(squadB)){
+           Battle battle = new Battle(squadA.getActiveSoldier(),
+               squadA.returnEnemyWhoOccupiedSpace(squadB));
+           battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
+               squadA.returnEnemyWhoOccupiedSpace(squadB)));
+       }
+       if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveLeft();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_S) {
         squadA.getActiveSoldier().moveDown();
-       if(squadA.isSpaceOccupied(squadB)){
+       if(squadA.isSpaceOccupiedByEnemy(squadB)){
+         Battle battle = new Battle(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB));
+         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
+             squadA.returnEnemyWhoOccupiedSpace(squadB)));
+       }
+       if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveUp();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);

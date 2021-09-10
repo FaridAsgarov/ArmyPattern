@@ -102,7 +102,6 @@ public class Battle {
     }
   }
 
-
   public void AattacksB(Object attacker, Object defender){
     if (attacker instanceof BaseSoldier) {
       if (defender instanceof BaseSoldier) {
