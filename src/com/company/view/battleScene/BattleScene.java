@@ -130,48 +130,28 @@ public class BattleScene extends JFrame implements KeyListener {
          squadB.previousSoldierIndex();
        } else if (e.getKeyCode() == KeyEvent.VK_W) {
          squadB.getActiveSoldier().moveUp();
-         if(squadB.isSpaceOccupiedByEnemy(squadA)){
-           Battle battle = new Battle(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA));
-           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA)));
-         }
+         attackEnemyTiles(squadB,squadA);
          if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveDown();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_A) {
          squadB.getActiveSoldier().moveLeft();
-         if(squadB.isSpaceOccupiedByEnemy(squadA)){
-           Battle battle = new Battle(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA));
-           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA)));
-         }
+         attackEnemyTiles(squadB,squadA);
          if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveRight();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_D) {
          squadB.getActiveSoldier().moveRight();
-         if(squadB.isSpaceOccupiedByEnemy(squadA)){
-           Battle battle = new Battle(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA));
-           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA)));
-         }
+         attackEnemyTiles(squadB,squadA);
          if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveLeft();
          }
          squadB.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
        } else if (e.getKeyCode() == KeyEvent.VK_S) {
          squadB.getActiveSoldier().moveDown();
-         if(squadB.isSpaceOccupiedByEnemy(squadA)){
-           Battle battle = new Battle(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA));
-           battleLog.setText(battle.startBattleHtml(squadB.getActiveSoldier(),
-               squadB.returnEnemyWhoOccupiedSpace(squadA)));
-         }
+         attackEnemyTiles(squadB,squadA);
          if(squadB.isSpaceOccupiedByFriend()){
            squadB.getActiveSoldier().moveUp();
          }
@@ -191,48 +171,28 @@ public class BattleScene extends JFrame implements KeyListener {
       }
      else if (e.getKeyCode() == KeyEvent.VK_W) {
         squadA.getActiveSoldier().moveUp();
-       if(squadA.isSpaceOccupiedByEnemy(squadB)){
-         Battle battle = new Battle(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB));
-         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB)));
-       }
+       attackEnemyTiles(squadA,squadB);
        if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveDown();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_A) {
         squadA.getActiveSoldier().moveLeft();
-       if(squadA.isSpaceOccupiedByEnemy(squadB)){
-         Battle battle = new Battle(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB));
-         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB)));
-       }
+       attackEnemyTiles(squadA,squadB);
        if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveRight();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_D) {
         squadA.getActiveSoldier().moveRight();
-       if(squadA.isSpaceOccupiedByEnemy(squadB)){
-           Battle battle = new Battle(squadA.getActiveSoldier(),
-               squadA.returnEnemyWhoOccupiedSpace(squadB));
-           battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
-               squadA.returnEnemyWhoOccupiedSpace(squadB)));
-       }
+       attackEnemyTiles(squadA,squadB);
        if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveLeft();
        }
         squadA.getActiveSoldier().checkBoundaries(8,1108, 8, 408);
       } else if (e.getKeyCode() == KeyEvent.VK_S) {
         squadA.getActiveSoldier().moveDown();
-       if(squadA.isSpaceOccupiedByEnemy(squadB)){
-         Battle battle = new Battle(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB));
-         battleLog.setText(battle.startBattleHtml(squadA.getActiveSoldier(),
-             squadA.returnEnemyWhoOccupiedSpace(squadB)));
-       }
+       attackEnemyTiles(squadA,squadB);
        if(squadA.isSpaceOccupiedByFriend()){
          squadA.getActiveSoldier().moveUp();
        }
@@ -282,4 +242,14 @@ public class BattleScene extends JFrame implements KeyListener {
     }
     repaint();
   }
+
+  public void attackEnemyTiles(Squad friendlySquad, Squad enemySquad){
+    if(friendlySquad.isSpaceOccupiedByEnemy(enemySquad)){
+      Battle battle = new Battle(friendlySquad.getActiveSoldier(),
+          friendlySquad.returnEnemyWhoOccupiedSpace(enemySquad));
+      battleLog.setText(battle.startBattleHtml(friendlySquad.getActiveSoldier(),
+          friendlySquad.returnEnemyWhoOccupiedSpace(enemySquad)));
+    }
+  }
+
 }
