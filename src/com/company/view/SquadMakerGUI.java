@@ -7,13 +7,20 @@ import com.company.business_logic.soldiers.melee.Swordsman;
 import com.company.business_logic.soldiers.ranged.Bowman;
 import com.company.business_logic.soldiers.ranged.Crossbowman;
 import com.company.business_logic.soldiers.squad.Squad;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class SquadMakerGUI extends JFrame {
@@ -33,14 +40,14 @@ public class SquadMakerGUI extends JFrame {
     this.setIconImage(logo.getImage());
     this.setSize(1000,900);
 
-    this.setLayout(null);
-
    JLabel squad1 = new JLabel("<html>" + squadA.getName() + " is currently empty. <br/> Please add soldiers above.");
    squad1.setVerticalAlignment(SwingConstants.TOP);
    squad1.setHorizontalAlignment(SwingConstants.CENTER);
+   squad1.setForeground(Color.RED);
    JLabel squad2 = new JLabel("<html>" + squadB.getName() + " is currently empty. <br/> Please add soldiers above.");
     squad2.setVerticalAlignment(SwingConstants.TOP);
     squad2.setHorizontalAlignment(SwingConstants.CENTER);
+    squad2.setForeground(Color.RED);
 
     squad1.setBounds(0,400,380,500);
     squad2.setBounds(400,400,380,500);
@@ -50,15 +57,19 @@ public class SquadMakerGUI extends JFrame {
 
     soldierListLabel.setVerticalAlignment(SwingConstants.TOP);
     soldierListLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    soldierListLabel.setForeground(Color.RED);
 
     soldierListLabel2.setVerticalAlignment(SwingConstants.TOP);
     soldierListLabel2.setHorizontalAlignment(SwingConstants.CENTER);
+    soldierListLabel2.setForeground(Color.RED);
 
     soldierListLabel.setBounds(0,0,380,20);
     soldierListLabel2.setBounds(400,0,380,20);
 
     JComboBox soldierList = new JComboBox(getSoldierNames());
+    soldierList.setForeground(Color.RED);
     JComboBox soldierList2 = new JComboBox(getSoldierNames());
+    soldierList2.setForeground(Color.RED);
 
     soldierList.addActionListener(new ActionListener() {
       @Override
@@ -96,14 +107,33 @@ public class SquadMakerGUI extends JFrame {
     soldierList.setBounds(100,22,120,20);
     soldierList2.setBounds(500,22,120,20);
 
-   this.add(squad1);
-   this.add(squad2);
-   this.add(soldierList);
-   this.add(soldierList2);
-   this.add(soldierListLabel);
-   this.add(soldierListLabel2);
+    JPanel myPanel = new JPanel() {
+      @Override
+      protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        BufferedImage image = null;
+        try {
+          image = ImageIO.read(new File("src/com/company/view/resources/images/battleBackground.jpg"));
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+        g.drawImage(image, 0, 0, this);
+      }
+    };
 
+   this.add(myPanel);
+   myPanel.setLayout(null);
+    myPanel.add(squad1);
+    myPanel.add(squad2);
+    myPanel.add(soldierList);
+    myPanel.add(soldierList2);
+    myPanel.add(soldierListLabel);
+    myPanel.add(soldierListLabel2);
+
+    myPanel.setVisible(true);
    this.setVisible(true);
+
+
 
   }
   BaseSoldier createNewSoldier(String class_name, String sold_name){

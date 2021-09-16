@@ -21,7 +21,7 @@ public class DialogBox extends JFrame {
     String result = (String) JOptionPane.showInputDialog(
         frame,
         message,
-        "Warning!",
+        "Need User Input:",
         JOptionPane.PLAIN_MESSAGE,
         null,
         null,
