@@ -23,8 +23,10 @@ public class SquadBattleGUI extends JFrame {
 
 
   public SquadBattleGUI() throws IOException {
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    setSize(1000,1055);
+    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
+    this.setIconImage(logo.getImage());
+
+    setSize(1200,1055);
     setLayout(null);
 
     final JMenuBar menuBar = new JMenuBar();
@@ -72,7 +74,7 @@ public class SquadBattleGUI extends JFrame {
 
     this.add(menuBar);
     this.add(labelForSquad1);
-    System.out.println(this.add(labelForSquad2));
+    this.add(labelForSquad2);
     menuBar.add(fileMenu);
     menuBar.add(squad1);
     menuBar.add(squad2);
@@ -196,7 +198,7 @@ public class SquadBattleGUI extends JFrame {
       content.add(scrollPane, BorderLayout.CENTER);
     backgroundArea.setBounds(0,0, 1600, 1500);
 
-this.add(backgroundArea);
+    this.add(backgroundArea);
     this.setVisible(true);
 
   }
