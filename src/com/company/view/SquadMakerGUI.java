@@ -7,6 +7,7 @@ import com.company.business_logic.soldiers.melee.Swordsman;
 import com.company.business_logic.soldiers.ranged.Bowman;
 import com.company.business_logic.soldiers.ranged.Crossbowman;
 import com.company.business_logic.soldiers.squad.Squad;
+import com.company.view.battleScene.BattleScene;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -71,6 +73,12 @@ public class SquadMakerGUI extends JFrame {
     JComboBox soldierList2 = new JComboBox(getSoldierNames());
     soldierList2.setForeground(Color.RED);
 
+    JButton startManualBattle = new JButton("Start Manual Battle!");
+    startManualBattle.setVisible(false);
+    startManualBattle.setHorizontalAlignment(SwingConstants.CENTER);
+    startManualBattle.setVerticalAlignment(SwingConstants.TOP);;
+    startManualBattle.setBounds(350,300,150,30);
+
     soldierList.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -83,6 +91,10 @@ public class SquadMakerGUI extends JFrame {
           soldierList.setVisible(false);
           soldierListLabel.setBounds(0,0,380,100);
           soldierListLabel.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadA.getName());
+        }
+
+        if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
+          startManualBattle.setVisible(true);
         }
       }
     });
@@ -100,9 +112,22 @@ public class SquadMakerGUI extends JFrame {
           soldierListLabel2.setBounds(400,0,380,100);
           soldierListLabel2.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadB.getName());
         }
+
+        if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
+          startManualBattle.setVisible(true);
+        }
       }
     });
 
+    startManualBattle.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        SquadMakerGUI.super.dispose();
+        new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
+            new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
+        );
+      }
+    });
 
     soldierList.setBounds(100,22,120,20);
     soldierList2.setBounds(500,22,120,20);
@@ -121,6 +146,7 @@ public class SquadMakerGUI extends JFrame {
       }
     };
 
+
    this.add(myPanel);
    myPanel.setLayout(null);
     myPanel.add(squad1);
@@ -129,6 +155,7 @@ public class SquadMakerGUI extends JFrame {
     myPanel.add(soldierList2);
     myPanel.add(soldierListLabel);
     myPanel.add(soldierListLabel2);
+    myPanel.add(startManualBattle);
 
     myPanel.setVisible(true);
    this.setVisible(true);

@@ -30,7 +30,7 @@ public class MainMenu extends JFrame {
 
     JButton startSoldierAutoBattle = new JButton("Start Soldier Vs Soldier AutoBattle!");
     JButton startSquadAutoBattle = new JButton("Start Squad vs Squad AutoBattle!");
-    JButton startBattleScene = new JButton("Start Squad vs Squad Manual Battle!");
+    JButton startBattleScene = new JButton("Start Squad Maker Before Manual Battle!");
     JButton exitButton = new JButton("Exit");
 
     startSoldierAutoBattle.setBounds(250,200,300,30);
@@ -102,7 +102,7 @@ public class MainMenu extends JFrame {
     startBattleScene.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-          new BattleScene();
+          new SquadMakerGUI();
       }
     });
 

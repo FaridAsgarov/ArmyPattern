@@ -59,7 +59,7 @@ public class EndingScreen extends JFrame {
      @Override
      public void actionPerformed(ActionEvent e) {
        EndingScreen.super.dispose();
-       new BattleScene();
+       new SquadMakerGUI();
      }
    });
 

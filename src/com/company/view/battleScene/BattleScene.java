@@ -23,27 +23,28 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class BattleScene extends JFrame implements KeyListener {
-  Squad squadA = new Squad("Red");
-  Squad squadB = new Squad("Blue");
+  Squad squadA;
+  Squad squadB;
   JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
   JPanel myPanel;
 
-  public BattleScene(){
+  public BattleScene(Squad squadA, Squad squadB){
+    this.squadA = squadA;
+    this.squadB = squadB;
     ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
     this.setIconImage(logo.getImage());
 
     this.setSize(1228,1250);
 
-    squadA.addSoldierToTheSquad(new Spearman("Fedya",new SoldierPosition(8,8)));
-    squadA.addSoldierToTheSquad(new Crossbowman("Grisha",new SoldierPosition(8,108)));
-    squadA.addSoldierToTheSquad(new Swordsman("Vasya",new SoldierPosition(8,208)));
-    squadA.addSoldierToTheSquad(new Bowman("Legolas",new SoldierPosition(8,308)));
-
-    squadB.addSoldierToTheSquad(new Spearman("Evil Fedya",new SoldierPosition(1108,8)));
-    squadB.addSoldierToTheSquad(new Crossbowman("Evil Grisha",new SoldierPosition(1108,108)));
-    squadB.addSoldierToTheSquad(new Swordsman("Evil Vasya",new SoldierPosition(1108,208)));
-    squadB.addSoldierToTheSquad(new Bowman("Evil Legolas",new SoldierPosition(1108,308)));
-
+//    squadA.addSoldierToTheSquad(new Spearman("Fedya",new SoldierPosition(8,8)));
+//    squadA.addSoldierToTheSquad(new Crossbowman("Grisha",new SoldierPosition(8,108)));
+//    squadA.addSoldierToTheSquad(new Swordsman("Vasya",new SoldierPosition(8,208)));
+//    squadA.addSoldierToTheSquad(new Bowman("Legolas",new SoldierPosition(8,308)));
+//
+//    squadB.addSoldierToTheSquad(new Spearman("Evil Fedya",new SoldierPosition(1108,8)));
+//    squadB.addSoldierToTheSquad(new Crossbowman("Evil Grisha",new SoldierPosition(1108,108)));
+//    squadB.addSoldierToTheSquad(new Swordsman("Evil Vasya",new SoldierPosition(1108,208)));
+//    squadB.addSoldierToTheSquad(new Bowman("Evil Legolas",new SoldierPosition(1108,308)));
 
     battleLog.setBounds(320,528,700,900);
     battleLog.setHorizontalAlignment(SwingConstants.CENTER);
