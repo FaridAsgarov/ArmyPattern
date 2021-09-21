@@ -18,15 +18,23 @@ import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
   BackgroundMusicRunnable backgroundMusicRunnable = new BackgroundMusicRunnable();
+  boolean isThreadOn = true;
+  Thread myThread;
   public MainMenu(){
     this.setSize(800,800);
 
     ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
     this.setIconImage(logo.getImage());
 
-    Thread myThread = new Thread(backgroundMusicRunnable);
+    myThread = new Thread(backgroundMusicRunnable);
     myThread.setDaemon(true);
     myThread.start();
+
+    JButton volumeControl = new JButton();
+    ImageIcon volumeOff = new ImageIcon("src/com/company/view/resources/images/volumeOff.png");
+    ImageIcon volumeOn = new ImageIcon("src/com/company/view/resources/images/volumeOn.png");
+    volumeControl.setIcon(volumeOn);
+    volumeControl.setBounds(695,680,75,75);
 
     JButton startSoldierAutoBattle = new JButton("Start Soldier Vs Soldier AutoBattle!");
     JButton startSquadAutoBattle = new JButton("Start Squad vs Squad AutoBattle!");
@@ -64,10 +72,12 @@ public class MainMenu extends JFrame {
       }
     };
 
+    myPanel.setLayout(null);
     myPanel.add(startSoldierAutoBattle);
     myPanel.add(startSquadAutoBattle);
     myPanel.add(startBattleScene);
     myPanel.add(exitButton);
+    myPanel.add(volumeControl);
 
     addWindowListener(new WindowAdapter()
     {
@@ -110,6 +120,24 @@ public class MainMenu extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         System.exit(0);
+      }
+    });
+
+    volumeControl.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if(isThreadOn){
+          myThread.stop();
+          isThreadOn = false;
+          volumeControl.setIcon(volumeOff);
+        }
+        else{
+          myThread = new Thread(backgroundMusicRunnable);
+          myThread.setDaemon(true);
+          myThread.start();
+          isThreadOn = true;
+          volumeControl.setIcon(volumeOn);
+        }
       }
     });
 
