@@ -45,11 +45,6 @@ public class Squad {
     soldierSquad.remove(soldier);
   }
 
-  public int getActiveSoldierIndex() {
-//        System.out.println(this.activeSoldierIndex);
-    return activeSoldierIndex;
-  }
-
   public BaseSoldier getSoldier(int index) {
     return soldierSquad.get(index);
   }
@@ -166,9 +161,6 @@ public class Squad {
           && getActiveSoldier().getSoldierPosition().positionY == enemy
           .getSoldierPosition().positionY) {
         isOccupied = true;
-
-//        Battle battle = new Battle(getActiveSoldier(),enemy);
-//        battle.startBattleInConsole(getActiveSoldier(),enemy);
       }
     }
     return isOccupied;

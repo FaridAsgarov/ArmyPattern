@@ -1,12 +1,15 @@
 package com.company.view.battleScene;
 
 import com.company.business_logic.battle_logic.Battle;
+import com.company.business_logic.soldiers.BaseSoldier;
 import com.company.business_logic.soldiers.squad.Squad;
 import com.company.view.EndingScreen;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -182,14 +185,19 @@ public class BattleScene extends JFrame implements KeyListener {
     }
 
     private void repaintAliveSoldiers(Squad squad, int offset) {
-        for (int i = 0; i < squad.getSoldierCount(); i++) {
-            if (!squad.getSoldier(i).isAlive()) {
-                myPanel.remove(myPanel.getComponent(i + offset));
-                squad.removeSoldierFromTheSquad(squad.getSoldier(i));
+        List<BaseSoldier> toBeRemoved = new ArrayList<>();
+
+        for (BaseSoldier soldier : squad.getSoldierSquad()) {
+            if (!soldier.isAlive()) {
+                Component component = myPanel.getComponentAt(soldier.getSoldierPosition().positionX, soldier.getSoldierPosition().positionY);
+                myPanel.remove(component);
+                toBeRemoved.add(soldier);
                 squad.setSoldierIndex(0);
                 repaint();
             }
         }
+
+        toBeRemoved.forEach(squad::removeSoldierFromTheSquad);
     }
 
     public void attackEnemyTiles(Squad friendlySquad, Squad enemySquad) {
