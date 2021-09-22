@@ -17,14 +17,15 @@ import java.io.IOException;;
 import javax.swing.JFrame;
 import javax.swing.*;
 
+import static com.company.view.Constants.LOGO;
+
 public class SquadBattleGUI extends JFrame {
   Squad squadA = new Squad("Squad 1");
   Squad squadB = new Squad("Squad 2");
 
 
   public SquadBattleGUI() throws IOException {
-    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
-    this.setIconImage(logo.getImage());
+    this.setIconImage(LOGO.getImage());
 
     setSize(1200,1055);
     setLayout(null);
@@ -173,7 +174,7 @@ public class SquadBattleGUI extends JFrame {
     this.setJMenuBar(menuBar);
     menuBar.setVisible(true);
 
-    String path = new File(".").getCanonicalPath();
+    String path = new File("").getCanonicalPath();
     path+= "\\src\\com\\company\\view\\resources\\images\\scrollBackground.png";
 
     ImageIcon scrollIcon=new ImageIcon(path);

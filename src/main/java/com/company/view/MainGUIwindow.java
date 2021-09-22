@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import static com.company.view.Constants.LOGO;
+
 public class MainGUIwindow extends JFrame {
   BaseSoldier firstSoldier;
   BaseSoldier secondSoldier;
@@ -26,8 +28,7 @@ public class MainGUIwindow extends JFrame {
     return names;
   }
   public MainGUIwindow(){
-    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
-    this.setIconImage(logo.getImage());
+    this.setIconImage(LOGO.getImage());
 
     JButton b = new JButton("Fight!");
     JLabel firstPlayerLog=new JLabel("<html>");

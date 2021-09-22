@@ -1,6 +1,5 @@
 package com.company.view;
 
-import com.company.view.battleScene.BattleScene;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -10,17 +9,20 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import static com.company.view.Constants.GAME_OVER_IMAGE;
+import static com.company.view.Constants.LOGO;
+
 public class EndingScreen extends JFrame {
+
+
   public EndingScreen(String winnerSquad) {
-    ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
-    this.setIconImage(logo.getImage());
+    this.setIconImage(LOGO.getImage());
 
     this.setSize(1280,970);
     this.setTitle("Game over, " + winnerSquad + " won!");
@@ -43,7 +45,7 @@ public class EndingScreen extends JFrame {
        super.paintComponent(g);
        BufferedImage image = null;
        try {
-         image = ImageIO.read(new File("src/com/company/view/resources/images/gameOverScreen.jpg"));
+         image = ImageIO.read(GAME_OVER_IMAGE);
          this.setLayout(null);
          this.add(winnerMessage);
          this.add(backToMainMenu);

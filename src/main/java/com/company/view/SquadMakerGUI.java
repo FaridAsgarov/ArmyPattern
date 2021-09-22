@@ -24,8 +24,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import static com.company.view.Constants.BACKGROUND_IMAGE;
+import static com.company.view.Constants.RESOURCES_PATH;
+
 public class SquadMakerGUI extends JFrame {
-  Squad squadA = new Squad(new DialogBox().showDialog("Enter name for Squad 1:"));
+    Squad squadA = new Squad(new DialogBox().showDialog("Enter name for Squad 1:"));
   Squad squadB = new Squad(new DialogBox().showDialog("Enter name for Squad 2:"));
   String [] getSoldierNames(){
     BaseSoldier soldierType[]= {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
@@ -37,7 +40,7 @@ public class SquadMakerGUI extends JFrame {
     return names;
   }
   public SquadMakerGUI(){
-  ImageIcon logo = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
+  ImageIcon logo = new ImageIcon(RESOURCES_PATH + "/images/logo.jpg");
     this.setIconImage(logo.getImage());
     this.setSize(1000,900);
 
@@ -137,7 +140,7 @@ public class SquadMakerGUI extends JFrame {
         super.paintComponent(g);
         BufferedImage image = null;
         try {
-          image = ImageIO.read(new File("src/com/company/view/resources/images/battleBackground.jpg"));
+          image = ImageIO.read(BACKGROUND_IMAGE);
         } catch (IOException e) {
           e.printStackTrace();
         }

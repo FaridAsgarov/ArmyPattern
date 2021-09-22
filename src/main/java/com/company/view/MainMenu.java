@@ -15,11 +15,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import static com.company.view.Constants.*;
+
 public class MainMenu extends JFrame {
-    public static final ImageIcon LOGO = new ImageIcon("src/com/company/view/resources/images/logo.jpg");
-    public static final ImageIcon VOLUME_OFF = new ImageIcon("src/com/company/view/resources/images/volumeOff.png");
-    public static final ImageIcon VOLUME_ON = new ImageIcon("src/com/company/view/resources/images/volumeOn.png");
-    public static final File BACKGROUND_IMAGE = new File("src/com/company/view/resources/images/battleBackground.jpg");
+
 
     BackgroundMusicRunnable backgroundMusicRunnable = new BackgroundMusicRunnable();
     Thread musicThread;
@@ -27,10 +26,6 @@ public class MainMenu extends JFrame {
     public MainMenu() {
         this.setSize(800, 800);
         this.setIconImage(LOGO.getImage());
-
-//    myThread = new Thread(backgroundMusicRunnable);
-//    myThread.setDaemon(true);
-//    myThread.start();
 
         JButton volumeControl = getButton("", 695, 680, 75, 75);
         volumeControl.setIcon(VOLUME_OFF);
@@ -86,7 +81,7 @@ public class MainMenu extends JFrame {
         exitButton.addActionListener(e -> System.exit(0));
 
         volumeControl.addActionListener(e -> {
-            if (musicThread.isAlive()) {
+            if (musicThread != null && musicThread.isAlive()) {
                 turnMusicOff();
                 volumeControl.setIcon(VOLUME_OFF);
             } else {

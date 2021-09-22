@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import static com.company.view.Constants.LOGO;
 import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
 import static java.awt.Font.BOLD;
@@ -19,7 +20,6 @@ import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.TOP;
 
 public class BattleScene extends JFrame implements KeyListener {
-    public static final String LOGO = "src/com/company/view/resources/images/logo.jpg";
     public static final int SCENE_WIDTH = 1228;
     public static final int SCENE_HEIGHT = 1250;
     public static final int SIDE_SIZE = 100;
@@ -33,7 +33,7 @@ public class BattleScene extends JFrame implements KeyListener {
     public BattleScene(Squad squadA, Squad squadB) {
         this.squadA = squadA;
         this.squadB = squadB;
-        this.setIconImage(new ImageIcon(LOGO).getImage());
+        this.setIconImage(LOGO.getImage());
 
         this.setSize(SCENE_WIDTH, SCENE_HEIGHT);
         battleLog.setBounds(320, 528, 700, 900);
