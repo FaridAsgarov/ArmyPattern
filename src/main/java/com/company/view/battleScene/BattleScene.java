@@ -128,29 +128,29 @@ public class BattleScene extends JFrame implements KeyListener {
         } else if (e.getKeyCode() == KeyEvent.VK_W) {
             attacker.getActiveSoldier().moveUp();
             attackEnemyTiles(attacker, defender);
-            if (attacker.isSpaceOccupiedByFriend()) {
-                attacker.getActiveSoldier().moveDown();
+            if (attacker.isSpaceOccupied(defender)) {
+                attacker.getActiveSoldier().moveLeft();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
             attacker.getActiveSoldier().moveLeft();
             attackEnemyTiles(attacker, defender);
-            if (attacker.isSpaceOccupiedByFriend()) {
-                attacker.getActiveSoldier().moveRight();
+            if (attacker.isSpaceOccupied(defender)) {
+                attacker.getActiveSoldier().moveLeft();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         } else if (e.getKeyCode() == KeyEvent.VK_D) {
             attacker.getActiveSoldier().moveRight();
             attackEnemyTiles(attacker, defender);
-            if (attacker.isSpaceOccupiedByFriend()) {
+            if (attacker.isSpaceOccupied(defender)) {
                 attacker.getActiveSoldier().moveLeft();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         } else if (e.getKeyCode() == KeyEvent.VK_S) {
             attacker.getActiveSoldier().moveDown();
             attackEnemyTiles(attacker, defender);
-            if (attacker.isSpaceOccupiedByFriend()) {
-                attacker.getActiveSoldier().moveUp();
+            if (attacker.isSpaceOccupied(defender)) {
+                attacker.getActiveSoldier().moveLeft();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         }
