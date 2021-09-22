@@ -1,7 +1,7 @@
 package com.company.business_logic.soldiers.squad;
 
-import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.BaseSoldier;
+
 import java.util.ArrayList;
 
 public class Squad {
@@ -20,7 +20,7 @@ public class Squad {
   }
 
   public void nextSoldierIndex() {
-//       System.out.println(this.activeSoldierIndex);
+    System.out.println("Active soldier index: " + this.activeSoldierIndex);
     if (this.activeSoldierIndex + 1 < soldierSquad.size()) {
       this.activeSoldierIndex++;
     }
