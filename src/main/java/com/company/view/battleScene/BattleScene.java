@@ -170,8 +170,8 @@ public class BattleScene extends JFrame implements KeyListener {
     }
 
     public void removeDeadSoldierLabels() {
-        repaintAliveSoldiers(squadA, 0);
-        repaintAliveSoldiers(squadB, squadB.getSoldierCount());
+        repaintAliveSoldiers(squadA);
+        repaintAliveSoldiers(squadB);
 
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
             if (squadA.getSoldierCount() == 0) {
@@ -184,7 +184,7 @@ public class BattleScene extends JFrame implements KeyListener {
         repaint();
     }
 
-    private void repaintAliveSoldiers(Squad squad, int offset) {
+    private void repaintAliveSoldiers(Squad squad) {
         List<BaseSoldier> toBeRemoved = new ArrayList<>();
 
         for (BaseSoldier soldier : squad.getSoldierSquad()) {
