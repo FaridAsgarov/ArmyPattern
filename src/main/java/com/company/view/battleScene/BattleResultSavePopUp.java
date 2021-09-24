@@ -15,7 +15,6 @@ public class BattleResultSavePopUp {
 
     return n;
 
-
   }
 
 }

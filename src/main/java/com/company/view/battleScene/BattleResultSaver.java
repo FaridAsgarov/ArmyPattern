@@ -20,7 +20,6 @@ public class BattleResultSaver {
       Files.write(Paths.get(path), text.getBytes(), StandardOpenOption.APPEND);
     } catch (IOException e) {
     }
-
   }
 
 }
