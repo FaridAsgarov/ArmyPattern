@@ -1,19 +1,17 @@
 package com.company.view.battleScene;
 
 import com.company.business_logic.battle_logic.Battle;
-import com.company.business_logic.soldiers.BaseSoldier;
 import com.company.business_logic.soldiers.squad.Squad;
 import com.company.view.EndingScreen;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import static com.company.view.Constants.LOGO;
 import static java.awt.Color.BLUE;
@@ -23,12 +21,14 @@ import static javax.swing.SwingConstants.CENTER;
 import static javax.swing.SwingConstants.TOP;
 
 public class BattleScene extends JFrame implements KeyListener {
-    public static final int SCENE_WIDTH = 1228;
-    public static final int SCENE_HEIGHT = 1250;
+    public static final int SCENE_WIDTH = 1225;
+    public static final int SCENE_HEIGHT = 1450;
     public static final int SIDE_SIZE = 100;
     private final JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
+    private String battleLogTextToBeExported;
 
     private final JPanel myPanel;
+    private JScrollPane log;
 
     private final Squad squadA;
     private final Squad squadB;
@@ -36,13 +36,14 @@ public class BattleScene extends JFrame implements KeyListener {
     public BattleScene(Squad squadA, Squad squadB) {
         this.squadA = squadA;
         this.squadB = squadB;
+
         this.setIconImage(LOGO.getImage());
 
         this.setSize(SCENE_WIDTH, SCENE_HEIGHT);
-        battleLog.setBounds(320, 528, 700, 900);
+        battleLog.setBounds(150, 528, 900,850);
         battleLog.setHorizontalAlignment(CENTER);
         battleLog.setVerticalAlignment(TOP);
-        battleLog.setFont(new Font("Serif", BOLD, 20));
+        battleLog.setFont(new Font("Serif", BOLD, 17));
 
         myPanel = createPanel(squadA, squadB);
         myPanel.setName("myPanel");
@@ -53,7 +54,11 @@ public class BattleScene extends JFrame implements KeyListener {
 
         this.repaint();
         this.add(myPanel);
-        myPanel.add(battleLog);
+
+        log = new JScrollPane(battleLog);
+        log.setBounds(0, 510, SCENE_WIDTH-20, 850);
+        log.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        myPanel.add(log);
 
         this.update(this.getGraphics());
         this.setVisible(true);
@@ -129,14 +134,14 @@ public class BattleScene extends JFrame implements KeyListener {
             attacker.getActiveSoldier().moveUp();
             attackEnemyTiles(attacker, defender);
             if (attacker.isSpaceOccupied(defender)) {
-                attacker.getActiveSoldier().moveLeft();
+                attacker.getActiveSoldier().moveDown();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         } else if (e.getKeyCode() == KeyEvent.VK_A) {
             attacker.getActiveSoldier().moveLeft();
             attackEnemyTiles(attacker, defender);
             if (attacker.isSpaceOccupied(defender)) {
-                attacker.getActiveSoldier().moveLeft();
+                attacker.getActiveSoldier().moveRight();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         } else if (e.getKeyCode() == KeyEvent.VK_D) {
@@ -150,7 +155,7 @@ public class BattleScene extends JFrame implements KeyListener {
             attacker.getActiveSoldier().moveDown();
             attackEnemyTiles(attacker, defender);
             if (attacker.isSpaceOccupied(defender)) {
-                attacker.getActiveSoldier().moveLeft();
+                attacker.getActiveSoldier().moveUp();
             }
             attacker.getActiveSoldier().checkBoundaries(8, 1108, 8, 408);
         }
@@ -170,34 +175,33 @@ public class BattleScene extends JFrame implements KeyListener {
     }
 
     public void removeDeadSoldierLabels() {
-        repaintAliveSoldiers(squadA);
-        repaintAliveSoldiers(squadB);
+        repaintAliveSoldiers(squadA, 0);
+        repaintAliveSoldiers(squadB, squadB.getSoldierCount());
 
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
+            if(new BattleResultSavePopUp().ShowDialog() == 0){
+                new BattleResultSaver(battleLogTextToBeExported);
+            }
             if (squadA.getSoldierCount() == 0) {
                 new EndingScreen(squadB.getName());
             } else {
                 new EndingScreen(squadA.getName());
             }
+            repaint();
             this.dispose();
         }
         repaint();
     }
 
-    private void repaintAliveSoldiers(Squad squad) {
-        List<BaseSoldier> toBeRemoved = new ArrayList<>();
-
-        for (BaseSoldier soldier : squad.getSoldierSquad()) {
-            if (!soldier.isAlive()) {
-                Component component = myPanel.getComponentAt(soldier.getSoldierPosition().positionX, soldier.getSoldierPosition().positionY);
-                myPanel.remove(component);
-                toBeRemoved.add(soldier);
+    private void repaintAliveSoldiers(Squad squad, int offset) {
+        for (int i = 0; i < squad.getSoldierCount(); i++) {
+            if (!squad.getSoldier(i).isAlive()) {
+                myPanel.remove(myPanel.getComponent(i + offset));
+                squad.removeSoldierFromTheSquad(squad.getSoldier(i));
                 squad.setSoldierIndex(0);
                 repaint();
             }
         }
-
-        toBeRemoved.forEach(squad::removeSoldierFromTheSquad);
     }
 
     public void attackEnemyTiles(Squad friendlySquad, Squad enemySquad) {
@@ -206,7 +210,11 @@ public class BattleScene extends JFrame implements KeyListener {
                     friendlySquad.returnEnemyWhoOccupiedSpace(enemySquad));
             battleLog.setText(battle.startBattleHtml(friendlySquad.getActiveSoldier(),
                     friendlySquad.returnEnemyWhoOccupiedSpace(enemySquad)));
+            saveBattleLogsToText(battleLog.getText());
         }
     }
 
+    public void saveBattleLogsToText(String battleText){
+        this.battleLogTextToBeExported += battleText + "\n";
+    }
 }
