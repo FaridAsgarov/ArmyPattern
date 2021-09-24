@@ -1,4 +1,4 @@
-package com.company.view.battleScene;
+package com.company;
 
 import com.company.view.MainMenu;
 

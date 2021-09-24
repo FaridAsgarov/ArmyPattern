@@ -181,7 +181,6 @@ public class BattleScene extends JFrame implements KeyListener {
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
             if(new BattleResultSavePopUp().ShowDialog() == 0){
                 new BattleResultSaver(battleLogTextToBeExported);
-
             }
             if (squadA.getSoldierCount() == 0) {
                 new EndingScreen(squadB.getName());
