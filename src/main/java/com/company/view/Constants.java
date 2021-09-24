@@ -16,5 +16,4 @@ public class Constants {
 
     public static final String MUSIC_FILE_PATH = RESOURCES_PATH + "/sounds/epicBackgroundMusic.wav";
 
-
 }

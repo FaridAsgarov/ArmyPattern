@@ -13,7 +13,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -78,8 +77,41 @@ public class SquadMakerGUI extends JFrame {
     JButton startManualBattle = new JButton("Start Manual Battle!");
     startManualBattle.setVisible(false);
     startManualBattle.setHorizontalAlignment(SwingConstants.CENTER);
-    startManualBattle.setVerticalAlignment(SwingConstants.TOP);;
+    startManualBattle.setVerticalAlignment(SwingConstants.TOP);
     startManualBattle.setBounds(350,300,150,30);
+
+    JLabel quickStartLabel = new JLabel("Add the soldiers above to unlock custom battle button or");
+    quickStartLabel.setVerticalAlignment(SwingConstants.TOP);
+    quickStartLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    quickStartLabel.setForeground(Color.RED);
+    quickStartLabel.setBounds(230,510,350,30);
+
+    JButton quickStart = new JButton("Quick Start with Auto-created squads");
+    quickStart.setVerticalAlignment(SwingConstants.TOP);
+    quickStart.setHorizontalAlignment(SwingConstants.CENTER);
+    quickStart.setForeground(Color.RED);
+    quickStart.setBounds(270,540,260,30);
+
+    quickStart.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        SquadMakerGUI.super.dispose();
+        squadA.addSoldierToTheSquad(new Bowman("Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadA.getName(),new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Spearman("Spearman from " + squadA.getName(),new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadA.getName(),new SoldierPosition(0,0)));
+
+        squadB.addSoldierToTheSquad(new Bowman("Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadB.getName(),new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Spearman("Spearman from " + squadB.getName(),new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadB.getName(),new SoldierPosition(0,0)));
+        new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
+            new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
+        );
+      }
+    });
 
     soldierList.addActionListener(new ActionListener() {
       @Override
@@ -158,6 +190,8 @@ public class SquadMakerGUI extends JFrame {
     myPanel.add(soldierListLabel);
     myPanel.add(soldierListLabel2);
     myPanel.add(startManualBattle);
+    myPanel.add(quickStartLabel);
+    myPanel.add(quickStart);
 
     myPanel.setVisible(true);
    this.setVisible(true);
