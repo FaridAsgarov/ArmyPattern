@@ -24,11 +24,11 @@ public class BattleScene extends JFrame implements KeyListener {
     public static final int SCENE_WIDTH = 1225;
     public static final int SCENE_HEIGHT = 1450;
     public static final int SIDE_SIZE = 100;
+    public static final int LOG_HEIGHT = 500;
     private final JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
     private String battleLogTextToBeExported;
 
     private final JPanel myPanel;
-    private JScrollPane log;
 
     private final Squad squadA;
     private final Squad squadB;
@@ -40,7 +40,9 @@ public class BattleScene extends JFrame implements KeyListener {
         this.setIconImage(LOGO.getImage());
 
         this.setSize(SCENE_WIDTH, SCENE_HEIGHT);
-        battleLog.setBounds(150, 528, 900,850);
+
+
+        battleLog.setBounds(150, 528, 900, LOG_HEIGHT);
         battleLog.setHorizontalAlignment(CENTER);
         battleLog.setVerticalAlignment(TOP);
         battleLog.setFont(new Font("Serif", BOLD, 17));
@@ -55,8 +57,8 @@ public class BattleScene extends JFrame implements KeyListener {
         this.repaint();
         this.add(myPanel);
 
-        log = new JScrollPane(battleLog);
-        log.setBounds(0, 510, SCENE_WIDTH-20, 850);
+        JScrollPane log = new JScrollPane(battleLog);
+        log.setBounds(0, 510, SCENE_WIDTH-20, LOG_HEIGHT);
         log.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         myPanel.add(log);
 

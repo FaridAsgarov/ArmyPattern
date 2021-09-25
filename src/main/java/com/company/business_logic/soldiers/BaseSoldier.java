@@ -33,7 +33,7 @@ public class BaseSoldier implements Movable{
       this.armorSet = armorSet;
       this.totalHealthAndArmor = baseHP + armorSet.getTotalArmorHP();
       this.shield = shield;
-      this.soldierImage = new ImageIcon(new ImageIcon(getClass().getResource(pathToImage)).getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT));
+      this.soldierImage = new ImageIcon(new ImageIcon(pathToImage).getImage().getScaledInstance(imageWidth, imageHeight, Image.SCALE_DEFAULT));
       this.soldierPosition = soldierPosition;
   }
 
