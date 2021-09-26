@@ -13,8 +13,7 @@ public class BattleResultSaver {
    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
    Date date = new Date();
 //     System.out.println(date.toString());
-    String path = "C:\\Users\\Farid\\Documents\\Projects\\ArmyPattern\\src\\main\\java\\com\\company\\view";
-//            System.getProperty("user.dir") + "\\src\\BattleResultSave.txt";
+    String path = System.getProperty("user.dir") + "\\src\\BattleResultSave.txt";
     String text = textToWrite;
 
     try {
