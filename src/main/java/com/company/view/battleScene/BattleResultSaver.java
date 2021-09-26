@@ -12,12 +12,14 @@ public class BattleResultSaver {
 
    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
    Date date = new Date();
-
-    String path = System.getProperty("user.dir") + "\\src\\BattleResultSave_"+date.toString()+".txt";
+//     System.out.println(date.toString());
+    String path = "C:\\Users\\Farid\\Documents\\Projects\\ArmyPattern\\src\\main\\java\\com\\company\\view";
+//            System.getProperty("user.dir") + "\\src\\BattleResultSave.txt";
     String text = textToWrite;
 
     try {
-      Files.write(Paths.get(path), text.getBytes(), StandardOpenOption.APPEND);
+        System.out.println("Saving does not work yet");
+      Files.write(Paths.get("src/resources/myfile.txt"), text.getBytes(), StandardOpenOption.APPEND);
     } catch (IOException e) {
     }
   }

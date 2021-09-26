@@ -22,7 +22,7 @@ import static javax.swing.SwingConstants.TOP;
 
 public class BattleScene extends JFrame implements KeyListener {
     public static final int SCENE_WIDTH = 1225;
-    public static final int SCENE_HEIGHT = 1450;
+    public static final int SCENE_HEIGHT = 1080;
     public static final int SIDE_SIZE = 100;
     public static final int LOG_HEIGHT = 500;
     private final JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
@@ -97,14 +97,18 @@ public class BattleScene extends JFrame implements KeyListener {
                     }
                 }
 
-                g2.setColor(RED);
-                g2.setStroke(new BasicStroke(8));
-                g2.drawRect(squadA.getActiveSoldier().getSoldierPosition().positionX - 2, squadA.getActiveSoldier().getSoldierPosition().positionY - 2, 104, 104);
 
-                g2.setColor(BLUE);
-                g2.setStroke(new BasicStroke(8));
-                g2.drawRect(squadB.getActiveSoldier().getSoldierPosition().positionX - 2, squadB.getActiveSoldier().getSoldierPosition().positionY - 2, 104, 104);
+                if(squadA.hasAliveSoldier()){
+                    g2.setColor(RED);
+                    g2.setStroke(new BasicStroke(8));
+                    g2.drawRect(squadA.getAliveSoldier().getSoldierPosition().positionX - 2, squadA.getAliveSoldier().getSoldierPosition().positionY - 2, 104, 104);
+                }
 
+                if(squadB.hasAliveSoldier()){
+                    g2.setColor(BLUE);
+                    g2.setStroke(new BasicStroke(8));
+                    g2.drawRect(squadB.getAliveSoldier().getSoldierPosition().positionX - 2, squadB.getAliveSoldier().getSoldierPosition().positionY - 2, 104, 104);
+                }
             }
         };
         return myPanel;
@@ -178,10 +182,11 @@ public class BattleScene extends JFrame implements KeyListener {
 
     public void removeDeadSoldierLabels() {
         repaintAliveSoldiers(squadA, 0);
-        repaintAliveSoldiers(squadB, squadB.getSoldierCount());
+        repaintAliveSoldiers(squadB, squadA.getSoldierCount());
 
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
             if(new BattleResultSavePopUp().ShowDialog() == 0){
+                System.out.println("Your battle will be saved into a text file");
                 new BattleResultSaver(battleLogTextToBeExported);
             }
             if (squadA.getSoldierCount() == 0) {
@@ -189,10 +194,8 @@ public class BattleScene extends JFrame implements KeyListener {
             } else {
                 new EndingScreen(squadA.getName());
             }
-            repaint();
             this.dispose();
         }
-        repaint();
     }
 
     private void repaintAliveSoldiers(Squad squad, int offset) {

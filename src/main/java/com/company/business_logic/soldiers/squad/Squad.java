@@ -16,11 +16,10 @@ public class Squad {
   }
 
   public BaseSoldier getActiveSoldier() {
-    return soldierSquad.get(this.activeSoldierIndex);
+        return soldierSquad.get(this.activeSoldierIndex);
   }
 
   public void nextSoldierIndex() {
-    System.out.println("Active soldier index: " + this.activeSoldierIndex);
     if (this.activeSoldierIndex + 1 < soldierSquad.size()) {
       this.activeSoldierIndex++;
     }
@@ -177,5 +176,22 @@ public class Squad {
     return null;
   }
 
+  public boolean hasAliveSoldier(){
+    for (BaseSoldier soldier: soldierSquad){
+      if(soldier.isAlive()){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public BaseSoldier getAliveSoldier(){
+    for (BaseSoldier soldier: soldierSquad){
+      if(soldier.isAlive()){
+        return soldier;
+      }
+    }
+    return null;
+  }
 
 }
