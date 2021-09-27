@@ -186,8 +186,8 @@ public class BattleScene extends JFrame implements KeyListener {
 
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
             if(new BattleResultSavePopUp().ShowDialog() == 0){
-                System.out.println("Your battle will be saved into a text file");
-                BattleResultSaver.writeLogToFile(battleLogTextToBeExported);
+                addWhoWonToBattleLogText();
+                BattleResultWriter.writeLogToFile(battleLogTextToBeExported);
             }
             if (squadA.getSoldierCount() == 0) {
                 new EndingScreen(squadB.getName());
@@ -221,5 +221,15 @@ public class BattleScene extends JFrame implements KeyListener {
 
     public void saveBattleLogsToText(String battleText){
         this.battleLogTextToBeExported += battleText + "\n";
+    }
+
+    public void addWhoWonToBattleLogText(){
+        battleLogTextToBeExported += "<br>";
+        if (squadA.getSoldierCount() == 0) {
+            battleLogTextToBeExported += squadB.getName();
+        } else {
+            battleLogTextToBeExported += squadA.getName();
+        }
+        battleLogTextToBeExported += " has won the Battle!";
     }
 }
