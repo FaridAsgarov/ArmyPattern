@@ -87,6 +87,26 @@ public class Squad {
     return log;
   }
 
+  public ArrayList<String> squadAttackEnemySquadWithLineSeparator(Squad enemySquad, String lineSeparator) {
+    ArrayList<String> log = new ArrayList<String>();
+
+    for (BaseSoldier soldier : soldierSquad) {
+      for (BaseSoldier enemy : enemySquad.getSoldierSquad())
+        if (soldier.isAlive()) {
+          soldier.attack(enemy);
+          log.add(
+                  soldier.getClass().getSimpleName() + " " + soldier.getName() + " from squad " + this
+                          .getName() +
+                          " attacks " + enemy.getClass().getSimpleName() + " " + enemy.getName()
+                          + " from squad " + enemySquad.getName() +
+                          ", " + enemy.getName() + " has " + enemy.getTotalHealthAndArmor() + "HP left" + lineSeparator
+          );
+        }
+    }
+
+    return log;
+  }
+
   public ArrayList<BaseSoldier> getSoldierSquad() {
     return soldierSquad;
   }

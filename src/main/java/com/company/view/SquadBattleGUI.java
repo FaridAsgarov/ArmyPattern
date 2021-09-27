@@ -12,7 +12,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;;
 import javax.swing.JFrame;
 import javax.swing.*;
@@ -20,8 +19,6 @@ import javax.swing.*;
 import static com.company.view.Constants.*;
 
 public class SquadBattleGUI extends JFrame {
-  public static final String SAVE_RESULT_OF_BATTLE = "Save result of battle";
-  public static final String EXIT = "Exit";
   public static final String ENTER_NAME_FOR_THE_SOLDIER = "Enter name for the soldier:";
   Squad squadA = new Squad("Squad 1");
   Squad squadB = new Squad("Squad 2");
@@ -30,14 +27,14 @@ public class SquadBattleGUI extends JFrame {
   public SquadBattleGUI() throws IOException {
     this.setIconImage(LOGO.getImage());
 
-    setSize(1200,1055);
+    setSize(1200,1200);
     setLayout(null);
 
     final JMenuBar menuBar = new JMenuBar();
 
-    JMenu fileMenu = new JMenu("File");
-    JMenu squad1 = new JMenu("Squad 1");
-    JMenu squad2 = new JMenu("Squad 2");
+    JMenu quickStart = new JMenu("Quick start");
+    JMenu squad1 = new JMenu("Manual Addition to Squad 1");
+    JMenu squad2 = new JMenu("Manual Addition to Squad 2");
 
     JLabel labelForSquad1 = new JLabel("Squad 1 is empty, \n please add soldiers");
     JLabel labelForSquad2 = new JLabel("Squad 2 is empty, \n please add soldiers");
@@ -45,15 +42,16 @@ public class SquadBattleGUI extends JFrame {
     labelForSquad2.setBounds(830,20,300,200);
 
     JLabel battleLog = new JLabel();
-    battleLog.setBounds(165,210,850,1200);
+    battleLog.setBounds(165,210,850,780);
     battleLog.setHorizontalAlignment(SwingConstants.CENTER);
     battleLog.setVerticalAlignment(SwingConstants.TOP);
     battleLog.setOpaque(false);
 
-    JMenuItem saveBattleResult = new JMenuItem(SAVE_RESULT_OF_BATTLE);
-    saveBattleResult.setActionCommand(SAVE_RESULT_OF_BATTLE);
-    JMenuItem exit = new JMenuItem(EXIT);
-    exit.setActionCommand(EXIT);
+    JScrollPane log = new JScrollPane(battleLog);
+    log.setBounds(165, 210, 850, 780);
+    log.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    log.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+    this.add(log);
 
     JMenu addSoldier = new JMenu("Add soldier to the squad");
 
@@ -69,17 +67,17 @@ public class SquadBattleGUI extends JFrame {
     JMenuItem addSpearman2 = new JMenuItem("Add Spearman");
     JMenuItem addSwordsman2 = new JMenuItem("Add Swordsman");
 
+    JMenuItem add4soldiersToEachSquad = new JMenuItem("add 4 soldiers to each squad");
+
     JButton startBattle = new JButton("Start battle!");
     startBattle.setBounds((this.getWidth()/2)-75,10,150,50);
+
     this.add(startBattle);
-
-
-    this.add(battleLog);
-
     this.add(menuBar);
     this.add(labelForSquad1);
     this.add(labelForSquad2);
-    menuBar.add(fileMenu);
+
+    menuBar.add(quickStart);
     menuBar.add(squad1);
     menuBar.add(squad2);
 
@@ -88,6 +86,26 @@ public class SquadBattleGUI extends JFrame {
     addSoldier.add(addCrossbowman);
     addSoldier.add(addSpearman);
     addSoldier.add(addSwordsman);
+
+    quickStart.add(add4soldiersToEachSquad);
+
+    add4soldiersToEachSquad.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        squadA.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
+        squadA.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
+
+        squadB.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
+        squadB.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
+
+        labelForSquad1.setText(squadToString(squadA));
+        labelForSquad2.setText(squadToString(squadB));
+      }
+    });
 
 
     startBattle.addActionListener(new ActionListener() {
@@ -170,9 +188,6 @@ public class SquadBattleGUI extends JFrame {
         labelForSquad2.setText(squadToString(squadB));
       }
     });
-
-    fileMenu.add(saveBattleResult);
-    fileMenu.add(exit);
 
     this.setJMenuBar(menuBar);
     menuBar.setVisible(true);

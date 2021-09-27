@@ -32,7 +32,6 @@ public class BattleResultWriter {
                 .replace("<html>", "")
                 .replace("</html>", "")
                 .replace("<br>", System.lineSeparator());
-
     }
 
 }

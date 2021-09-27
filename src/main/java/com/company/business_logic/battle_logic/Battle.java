@@ -40,7 +40,7 @@ public class Battle {
     String battleText = "<html>Battle log:" + "<br>";
     while(checkForWinner(attacker, defender).equals(this.continueBattle)) {
       AattacksB(attacker, defender);
-      battleText += attacker.squadAttackEnemySquad(defender) + "<br>";
+      battleText += attacker.squadAttackEnemySquadWithLineSeparator(defender, "<br>") + "<br>";
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
         battleText += checkForWinner(attacker, defender) + "<br>";
@@ -48,7 +48,7 @@ public class Battle {
       }
 
       AattacksB(defender, attacker);
-      battleText += defender.squadAttackEnemySquad(attacker) + "<br>";
+      battleText += defender.squadAttackEnemySquadWithLineSeparator(attacker,"<br>") + "<br>";
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
         battleText += checkForWinner(attacker, defender) + "<br>";
