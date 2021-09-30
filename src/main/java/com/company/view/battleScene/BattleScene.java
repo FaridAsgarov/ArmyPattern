@@ -223,7 +223,7 @@ public class BattleScene extends JFrame implements KeyListener {
         this.battleLogTextToBeExported += battleText + "\n";
     }
 
-    public void addWhoWonToBattleLogText(){
+    private void addWhoWonToBattleLogText(){
         battleLogTextToBeExported += "<br>";
         if (squadA.getSoldierCount() == 0) {
             battleLogTextToBeExported += squadB.getName();

@@ -1,15 +1,11 @@
 package com.company.view;
 
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -66,7 +62,7 @@ public class MainMenu extends JFrame {
         });
 
 
-        startSoldierAutoBattle.addActionListener(e -> new MainGUIwindow());
+        startSoldierAutoBattle.addActionListener(e -> new SoldierAutoBattleGUI());
 
         startSquadAutoBattle.addActionListener(e -> {
             try {
