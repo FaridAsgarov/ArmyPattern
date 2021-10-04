@@ -1,10 +1,13 @@
 package com.company;
+import com.company.view.DatabaseInfo;
 
-import com.company.view.MainMenu;
 
-public class Main {
-  public static void main(String[] args) {
-    new MainMenu();
+public class Main{
+
+  public static void main(String[] args) throws ClassNotFoundException {
+    DatabaseInfo battle_info = new DatabaseInfo();
+    battle_info.getDatabaseBattleTableInfo().forEach(System.out::println);
+
 
   }
 }
