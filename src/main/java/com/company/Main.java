@@ -6,8 +6,9 @@ public class Main{
 
   public static void main(String[] args) throws ClassNotFoundException {
     DatabaseInfo battle_info = new DatabaseInfo();
-    battle_info.getDatabaseBattleTableInfo().forEach(System.out::println);
 
+//    battle_info.insertBattleInfoToDatabase("Squad vs Squad AutoBattle","Peter won!", "2021-10-03");
+    battle_info.getDatabaseBattleTableInfo().forEach(System.out::println);
 
   }
 }
