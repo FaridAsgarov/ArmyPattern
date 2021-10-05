@@ -2,16 +2,15 @@ package com.company.view.battleScene;
 
 import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.squad.Squad;
+import com.company.view.DatabaseInfo;
 import com.company.view.EndingScreen;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.swing.*;
 
 import static com.company.view.Constants.LOGO;
 import static java.awt.Color.BLUE;
@@ -27,7 +26,7 @@ public class BattleScene extends JFrame implements KeyListener {
     public static final int LOG_HEIGHT = 500;
     private final JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
     private String battleLogTextToBeExported;
-
+    private String gameMode = "Squad vs Squad Manual Battle";
     private final JPanel myPanel;
 
     private final Squad squadA;
@@ -185,9 +184,19 @@ public class BattleScene extends JFrame implements KeyListener {
         repaintAliveSoldiers(squadB, squadA.getSoldierCount());
 
         if (squadA.getSoldierCount() == 0 || squadB.getSoldierCount() == 0) {
-            if(new BattleResultSavePopUp().ShowDialog() == 0){
+            if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
                 addWhoWonToBattleLogText();
                 BattleResultWriter.writeLogToFile(battleLogTextToBeExported);
+            }
+            if(new BattleResultSavePopUp().ShowDialog("Would you like to export the battle result to a database?") == 0){
+                DatabaseInfo battle_info = null;
+                try {
+                    battle_info = new DatabaseInfo();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+                battle_info.insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
+                JOptionPane.showMessageDialog(battleLog,"Successfully exported to database","Success",JOptionPane.WARNING_MESSAGE);
             }
             if (squadA.getSoldierCount() == 0) {
                 new EndingScreen(squadB.getName());
@@ -227,9 +236,29 @@ public class BattleScene extends JFrame implements KeyListener {
         battleLogTextToBeExported += "<br>";
         if (squadA.getSoldierCount() == 0) {
             battleLogTextToBeExported += squadB.getName();
-        } else {
+        } else if (squadB.getSoldierCount() == 0) {
             battleLogTextToBeExported += squadA.getName();
+        } else {
+            battleLogTextToBeExported += "Draw, no one ";
         }
         battleLogTextToBeExported += " has won the Battle!";
+    }
+
+    private String getCurrentDateAndFormatToString(){
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return date.format(formatter);
+    }
+
+    private String whoIsWinnerSquad(){
+        String whoIsWinner = "";
+        if(squadA.isAlive()&&!squadB.isAlive()){
+            whoIsWinner = squadA.getName() + " won!";
+        } else if (!squadA.isAlive()&&squadB.isAlive()){
+            whoIsWinner = squadB.getName() + " won!";
+        } else if (!squadA.isAlive()&&!squadB.isAlive()){
+            whoIsWinner = "Draw, both lost!";
+        }
+        return whoIsWinner;
     }
 }

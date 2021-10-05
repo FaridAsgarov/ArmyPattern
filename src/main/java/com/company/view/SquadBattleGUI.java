@@ -15,7 +15,9 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -30,6 +32,7 @@ public class SquadBattleGUI extends JFrame {
   public static final int SQUAD_JLABEL_HEIGHT = 200;
   public static final int SQUAD_JLABEL_WIDTH = 300;
   public static final int SQUAD_JLABEL_Y_COORDINATE = 20;
+  private String gameMode = "Squad vs Squad AutoBattle";
 
   private String initialSquad1Label = "Squad 1 is empty, \n please add soldiers";
   private String initialSquad2Label = "Squad 2 is empty, \n please add soldiers";
@@ -94,6 +97,7 @@ public class SquadBattleGUI extends JFrame {
     JMenuItem emptySquads = new JMenuItem("Empty the squads for a new game");
 
     JMenuItem exportToTextFile = new JMenuItem("Export the existing game to a text file");
+    JMenuItem exportToDataBase = new JMenuItem("Export the existing game to a database");
 
     JButton startBattle = new JButton("Start battle!");
     startBattle.setBounds((this.getWidth()/2)-75,10,150,50);
@@ -118,6 +122,7 @@ public class SquadBattleGUI extends JFrame {
     quickStart.add(add4soldiersToEachSquad);
     restart.add(emptySquads);
     save.add(exportToTextFile);
+    save.add(exportToDataBase);
 
     add4soldiersToEachSquad.addActionListener(new ActionListener() {
       @Override
@@ -154,9 +159,32 @@ public class SquadBattleGUI extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         if(battleLog.getText()!=null && battleLog.getText()!="" && battleLog.getText() != emptySquadsWarning){
-          if(new BattleResultSavePopUp().ShowDialog() == 0){
+          if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
             BattleResultWriter.writeLogToFile("Squad Vs Squad AutoBattle" + "\n" + battleLog.getText());
           }
+        }
+        else{
+          JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+        }
+      }
+    });
+
+    exportToDataBase.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if(battleLog.getText()!=null && battleLog.getText()!="" && battleLog.getText() != emptySquadsWarning){
+//          if(new BattleResultSavePopUp().ShowDialog() == 0){
+//            BattleResultWriter.writeLogToFile("Squad Vs Squad AutoBattle" + "\n" + battleLog.getText());
+//          }
+
+          DatabaseInfo battle_info = null;
+          try {
+            battle_info = new DatabaseInfo();
+          } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+          }
+          battle_info.insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
+          JOptionPane.showMessageDialog(battleLog,"Successfully exported to database","Success",JOptionPane.WARNING_MESSAGE);
         }
         else{
           JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
@@ -282,5 +310,23 @@ public class SquadBattleGUI extends JFrame {
     }
     tmp += "</html>";
     return tmp;
+  }
+
+  private String whoIsWinnerSquad(){
+    String whoIsWinner = "";
+    if(squadA.isAlive()&&!squadB.isAlive()){
+      whoIsWinner = squadA.getName() + " won!";
+    } else if (!squadA.isAlive()&&squadB.isAlive()){
+      whoIsWinner = squadB.getName() + " won!";
+    } else if (!squadA.isAlive()&&!squadB.isAlive()){
+      whoIsWinner = "Draw, both lost!";
+    }
+    return whoIsWinner;
+  }
+
+  private String getCurrentDateAndFormatToString(){
+    LocalDate date = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    return date.format(formatter);
   }
 }

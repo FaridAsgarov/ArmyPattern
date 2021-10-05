@@ -1,5 +1,4 @@
 package com.company.view;
-
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,18 +48,17 @@ public class DatabaseInfo {
         return battle_list;
         }
 
-    public void insertBattleInfoToDatabase(String battle_mode, String battle_log, String year_month_day){
+    public void insertBattleInfoToDatabase(String battle_mode, String battle_winner, String year_month_day){
         try (Connection conn = DriverManager.getConnection(this.url, this.username, this.password)){
 
             Statement statement = conn.createStatement();
             int rows = statement.executeUpdate("INSERT into battle_info(battle_mode, battle_log, submission_date) " +
-                    "VALUES (\'"+battle_mode + "\',\'" + battle_log + "\',\'" + year_month_day + "\')");
+                    "VALUES (\'"+battle_mode + "\',\'" + battle_winner + "\',\'" + year_month_day + "\')");
             System.out.printf("Added %d rows", rows);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
-
 
 
 }

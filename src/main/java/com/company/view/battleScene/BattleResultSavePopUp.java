@@ -8,10 +8,10 @@ public class BattleResultSavePopUp {
   public BattleResultSavePopUp() {
 
   }
-  public int ShowDialog(){
+  public int ShowDialog(String message){
     Object[] options = {"Yes","No"};
     int n = JOptionPane.showOptionDialog(this.frame,
-        "Would you like to export result of battle to a text file?","Would you like to export result of battle to a text file?", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
+        message,message, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
 
     return n;
 
