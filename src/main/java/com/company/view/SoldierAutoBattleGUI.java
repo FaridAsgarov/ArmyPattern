@@ -7,10 +7,14 @@ import com.company.business_logic.soldiers.melee.Spearman;
 import com.company.business_logic.soldiers.melee.Swordsman;
 import com.company.business_logic.soldiers.ranged.Bowman;
 import com.company.business_logic.soldiers.ranged.Crossbowman;
-
-
+import com.company.view.battleScene.BattleResultSavePopUp;
+import com.company.view.battleScene.BattleResultWriter;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import javax.swing.*;
 
@@ -24,11 +28,14 @@ public class SoldierAutoBattleGUI extends JFrame {
   private final int secondPlayerLogXcoordinate = 490;
   private final int imageSide = 100;
   private final int imageYcoordinate = 200;
-  private String enterNameRequirement = "Enter name to unlock soldier type:";
+  private final String enterNameRequirement = "Enter name to unlock soldier type:";
+  private final String startingHtmlTag = "<html>";
+  private final String gameMode = "Soldier vs Soldier AutoBattle";
+  private String battleLogTextToBeExported = startingHtmlTag;
   BaseSoldier firstSoldier;
   BaseSoldier secondSoldier;
   String [] getSoldierNames(){
-    BaseSoldier soldierType[]= {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
+    BaseSoldier[] soldierType = {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
         new Spearman("firstSoldier",new SoldierPosition(0,0)), new Swordsman("firstSoldier",new SoldierPosition(0,0))};
     String []names = new String[soldierType.length];
      for(int i = 0 ; i < soldierType.length; i++){
@@ -39,9 +46,14 @@ public class SoldierAutoBattleGUI extends JFrame {
   public SoldierAutoBattleGUI(){
     this.setIconImage(LOGO.getImage());
 
+    final JMenuBar menuBar = new JMenuBar();
+    JMenu export = new JMenu("Export the game");
+    JMenuItem exportToTextFile = new JMenuItem("Export the existing game to a text file");
+    JMenuItem exportToDataBase = new JMenuItem("Export the existing game to a database");
+
     JButton startBattle = new JButton("Fight!");
-    JLabel firstPlayerLog=new JLabel("<html>");
-    JLabel secondPlayerLog=new JLabel("<html>");
+    JLabel firstPlayerLog=new JLabel(startingHtmlTag);
+    JLabel secondPlayerLog=new JLabel(startingHtmlTag);
     firstPlayerLog.setBounds(firstPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH_AND_HEIGHT, LOG_WIDTH_AND_HEIGHT);
     secondPlayerLog.setBounds(secondPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH_AND_HEIGHT, LOG_WIDTH_AND_HEIGHT);
     JLabel firstPlayerPic = new JLabel();
@@ -64,9 +76,9 @@ public class SoldierAutoBattleGUI extends JFrame {
     this.add(soldierList);
     this.add(soldierLabel);
     soldierList.setSize(90,80);
-    soldierList.setBounds(50,55,300,20);
+    soldierList.setBounds(50,85,300,20);
 
-    soldierLabel.setBounds(50,30,300,20);
+    soldierLabel.setBounds(50,60,300,20);
 
 
     JLabel soldierLabel2= new JLabel(enterNameRequirement);
@@ -75,18 +87,16 @@ public class SoldierAutoBattleGUI extends JFrame {
     this.add(soldierList2);
     this.add(soldierLabel2);
     soldierList2.setSize(90,80);
-    soldierList2.setBounds(650,55,300,20);
-
-    soldierLabel2.setBounds(650,30,300,20);
-
+    soldierList2.setBounds(650,85,300,20);
+    soldierLabel2.setBounds(650,60,300,20);
 
     JTextField firstSoldierName = new JTextField("Enter the name for the first soldier:");
     this.add(firstSoldierName);
-    firstSoldierName.setBounds(50,0,190,20);
+    firstSoldierName.setBounds(50,30,195,20);
 
     JTextField secondSoldierName = new JTextField("Enter the name for the second soldier:");
     this.add(secondSoldierName);
-    secondSoldierName.setBounds(650,0,210,20);
+    secondSoldierName.setBounds(650,30,215,20);
 
     soldierList.setVisible(false);
     soldierList2.setVisible(false);
@@ -104,13 +114,20 @@ public class SoldierAutoBattleGUI extends JFrame {
       firstPlayerPic.setOpaque(true);
     });
 
-    soldierList2.addActionListener(e -> {
-      soldierLabel2.setText(soldierList2.getSelectedItem() + " is selected!");
-      secondSoldier = createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), secondSoldierName.getText());
-      ImageIcon secondPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH +"/images/" + soldierList2.getSelectedItem() +".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
-      secondPlayerPic.setIcon(secondPlayerIcon);
-      secondPlayerLog.setComponentZOrder(secondPlayerPic,1);
-      secondPlayerPic.setOpaque(true);
+    soldierList2.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        soldierLabel2.setText(soldierList2.getSelectedItem() + " is selected!");
+        secondSoldier = SoldierAutoBattleGUI.this.createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), secondSoldierName.getText());
+        ImageIcon secondPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH + "/images/" + soldierList2.getSelectedItem() + ".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
+        secondPlayerPic.setIcon(secondPlayerIcon);
+        try{
+          secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
+        }
+        catch (Exception ex){
+        }
+        secondPlayerPic.setOpaque(true);
+      }
     });
 
 
@@ -124,35 +141,66 @@ public class SoldierAutoBattleGUI extends JFrame {
         secondSoldier = createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), secondSoldierName.getText());
       }
 
-      firstPlayerLog.setText("<html>");
-      secondPlayerLog.setText("<html>");
+      firstPlayerLog.setText(startingHtmlTag);
+      secondPlayerLog.setText(startingHtmlTag);
 
       Battle battle = new Battle(firstSoldier,secondSoldier);
-
+      String firstPlayerAttackString;
+      String secondPlayerAttackString;
 
       while(firstSoldier.isAlive() && secondSoldier.isAlive()) {
 
-        battle.AattacksB(firstSoldier,secondSoldier);
+        battle.aAttacksB(firstSoldier,secondSoldier);
 
-        firstPlayerLog.setText(
-            firstPlayerLog.getText() + "<br/>" + firstSoldier.getClass().getSimpleName() + " " + firstSoldierName.getText() + " attacks, " +  secondSoldier.getClass().getSimpleName()
-                    + " " + secondSoldierName.getText() + " has HP left:"
-                + secondSoldier.totalHealthAndArmor);
+        firstPlayerAttackString = "<br/>" + firstSoldier.getClass().getSimpleName() + " " + firstSoldierName.getText() + " attacks, " +  secondSoldier.getClass().getSimpleName()
+                + " " + secondSoldierName.getText() + " has HP left:" + secondSoldier.totalHealthAndArmor;
 
-        battle.AattacksB(secondSoldier,firstSoldier);
-        secondPlayerLog.setText(
-              secondPlayerLog.getText() + "<br/>" + secondSoldier.getClass().getSimpleName() + " " + secondSoldierName.getText() + " attacks, "
-                  + firstSoldier.getClass().getSimpleName() + " " + firstSoldierName.getText() + " has HP left:"
-                  + firstSoldier.totalHealthAndArmor);
+        firstPlayerLog.setText(firstPlayerLog.getText() + firstPlayerAttackString);
+
+        saveBattleLogsToText(firstPlayerAttackString);
+
+        battle.aAttacksB(secondSoldier,firstSoldier);
+
+        secondPlayerAttackString = "<br/>" + secondSoldier.getClass().getSimpleName() + " " + secondSoldierName.getText() + " attacks, "
+                + firstSoldier.getClass().getSimpleName() + " " + firstSoldierName.getText() + " has HP left:" + firstSoldier.totalHealthAndArmor;
+
+        secondPlayerLog.setText(secondPlayerLog.getText() + secondPlayerAttackString);
+
+        saveBattleLogsToText(secondPlayerAttackString);
 
         checkForWinner(firstPlayerLog, secondPlayerLog, firstSoldierName, secondSoldierName);
-
       }
     });
 
-    startBattle.setBounds(485,10, imageSide, 40);
+    startBattle.setBounds(435,50, imageSide, 40);
 
+    exportToTextFile.addActionListener(e -> {
+      if(!Objects.equals(firstPlayerLog.getText(), startingHtmlTag) || !Objects.equals(secondPlayerLog.getText(), startingHtmlTag)){
+        if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
+          BattleResultWriter.writeLogToFile(gameMode + "\n" + battleLogTextToBeExported);
+          JOptionPane.showMessageDialog(firstPlayerLog,"Successfully exported to a text file","Success",JOptionPane.WARNING_MESSAGE);
+        }
+      }
+      else{
+        JOptionPane.showMessageDialog(firstPlayerLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+      }
+    });
 
+    exportToDataBase.addActionListener(e -> {
+      if(!Objects.equals(firstPlayerLog.getText(), startingHtmlTag) || !Objects.equals(secondPlayerLog.getText(), startingHtmlTag)){
+        DatabaseInfo battle_info;
+        try {
+          battle_info = new DatabaseInfo();
+          Objects.requireNonNull(battle_info).insertBattleInfoToDatabase(gameMode, whoIsTheWinner(), getCurrentDateAndFormatToString());
+          JOptionPane.showMessageDialog(firstPlayerLog,"Successfully exported to database","Success", JOptionPane.WARNING_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+          ex.printStackTrace();
+        }
+      }
+      else{
+        JOptionPane.showMessageDialog(firstPlayerLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+      }
+    });
 
 
     add(startBattle);
@@ -165,25 +213,41 @@ public class SoldierAutoBattleGUI extends JFrame {
     firstPlayerLog.setVerticalAlignment(JLabel.TOP);
     firstPlayerLog.setHorizontalAlignment(JLabel.RIGHT);
 
-    secondPlayerLog.setBackground(Color.CYAN);;
+    secondPlayerLog.setBackground(Color.CYAN);
     secondPlayerLog.setOpaque(true);
     secondPlayerLog.setVerticalAlignment(JLabel.TOP);
     secondPlayerLog.setHorizontalAlignment(JLabel.LEFT);
 
+    this.setJMenuBar(menuBar);
+    menuBar.setVisible(true);
+    this.add(menuBar);
+    menuBar.add(export);
+    export.add(exportToTextFile);
+    export.add(exportToDataBase);
+
     setLayout(null);
     setVisible(true);
-
 
   }
 
   private void checkForWinner(JLabel firstPlayerLog, JLabel secondPlayerLog, JTextField firstSoldierName, JTextField secondSoldierName) {
+    String firstPlayerWon = "<br/>" + firstSoldierName.getText() + " is the winner!";
+    String secondPlayerWon =  "<br/>" + secondSoldierName.getText() + " is the winner!";
+    String draw = "<br/> Both soldiers died, no one is the winner!";
+
     if(firstSoldier.isAlive() && !secondSoldier.isAlive()){
-      firstPlayerLog.setText(firstPlayerLog.getText() + "<br/>" + firstSoldierName.getText() + " is the winner!"
-      );}
-    if(secondSoldier.isAlive() && !firstSoldier.isAlive()){
-      secondPlayerLog.setText(secondPlayerLog.getText() +
-        "<br/>" + secondSoldierName.getText() + " is the winner!");}
-  }
+      firstPlayerLog.setText(firstPlayerLog.getText() + firstPlayerWon);
+      saveBattleLogsToText(firstPlayerWon);
+    }
+    else if(secondSoldier.isAlive() && !firstSoldier.isAlive()){
+      secondPlayerLog.setText(secondPlayerLog.getText() + secondPlayerWon);
+      saveBattleLogsToText(secondPlayerWon);
+    }
+    else if(!secondSoldier.isAlive() && !firstSoldier.isAlive()){
+      firstPlayerLog.setText(firstPlayerLog.getText() + draw);
+      saveBattleLogsToText(draw);
+      }
+    }
 
   BaseSoldier createNewSoldier(String class_name, String soldier_name){
     if(class_name.equals("Bowman")) return  new Bowman(soldier_name,new SoldierPosition(0,0));
@@ -191,6 +255,28 @@ public class SoldierAutoBattleGUI extends JFrame {
     if(class_name.equals("Spearman")) return  new Spearman(soldier_name,new SoldierPosition(0,0));
     if(class_name.equals("Swordsman")) return  new Swordsman(soldier_name,new SoldierPosition(0,0));
     return null;
+  }
+
+  private String getCurrentDateAndFormatToString(){
+    LocalDate date = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    return date.format(formatter);
+  }
+
+  private void saveBattleLogsToText(String battleText){
+    this.battleLogTextToBeExported += battleText + "\n";
+  }
+
+  private String whoIsTheWinner(){
+    String whoIsWinner = "";
+    if(firstSoldier.isAlive()&&!secondSoldier.isAlive()){
+      whoIsWinner = firstSoldier.getClass().getSimpleName() + " " + firstSoldier.getName() + " won!";
+    } else if (!firstSoldier.isAlive()&&secondSoldier.isAlive()){
+      whoIsWinner = secondSoldier.getClass().getSimpleName() + " " + secondSoldier.getName() + " won!";
+    } else if (!firstSoldier.isAlive()&&!secondSoldier.isAlive()){
+      whoIsWinner = "Draw, both lost!";
+    }
+    return whoIsWinner;
   }
 
 }

@@ -20,13 +20,13 @@ public abstract class BaseWeapon implements Weapon {
   @Override
   public int attack() {
     int range = (damageMax) + 1;
-    return (int)(Math.random() * range) + 0;
+    return (int) (Math.random() * range);
   }
 
   @Override
   public int defend() {
     int range = (parryMax) + 1;
-    return (int)(Math.random() * range) + 0;
+    return (int) (Math.random() * range);
   }
 
   public void addWeapon(Weapon weapon){

@@ -3,10 +3,7 @@ package com.company.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -57,12 +54,9 @@ public class EndingScreen extends JFrame {
      }
     };
 
-   backToMainMenu.addActionListener(new ActionListener() {
-     @Override
-     public void actionPerformed(ActionEvent e) {
-       EndingScreen.super.dispose();
-       new SquadMakerGUI();
-     }
+   backToMainMenu.addActionListener(e -> {
+     EndingScreen.super.dispose();
+     new SquadMakerGUI();
    });
 
     this.add(myPanel);

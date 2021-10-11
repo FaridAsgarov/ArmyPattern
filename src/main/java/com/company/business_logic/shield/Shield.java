@@ -20,12 +20,12 @@ public abstract class Shield {
 
   public int defendWithShield() {
     int range = (blockMax) + 1;
-    return (int)(Math.random() * range) + 0;
+    return (int) (Math.random() * range);
   }
 
   public int ramWithShield() {
     int range = (shieldRamMax) + 1;
-    return (int)(Math.random() * range) + 0;
+    return (int) (Math.random() * range);
   }
 
 

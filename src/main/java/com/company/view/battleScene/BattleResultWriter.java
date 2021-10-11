@@ -31,7 +31,8 @@ public class BattleResultWriter {
         return text.replace("null", "")
                 .replace("<html>", "")
                 .replace("</html>", "")
-                .replace("<br>", System.lineSeparator());
+                .replace("<br>", System.lineSeparator())
+                .replace("<br/>", System.lineSeparator());
     }
 
 }

@@ -3,9 +3,9 @@ package com.company.business_logic.armor_composite.concreteArmorElements.fromLam
 import com.company.business_logic.armor_composite.BaseArmor;
 import com.company.business_logic.armor_composite.materials.Lamellar;
 
-public class LamellarArmguard extends BaseArmor {
+public class LamellarArmGuard extends BaseArmor {
 
-  public LamellarArmguard() {
+  public LamellarArmGuard() {
     super(new Lamellar());
   }
 }

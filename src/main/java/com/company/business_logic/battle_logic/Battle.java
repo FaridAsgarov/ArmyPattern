@@ -14,52 +14,52 @@ public class Battle {
   }
 
   public String startBattleHtml(Object attacker, Object defender){
-    String battleText = "<html>Battle log:" + "<br>";
+    StringBuilder battleText = new StringBuilder("<html>Battle log:" + "<br>");
     while(checkForWinner(attacker, defender).equals(this.continueBattle)) {
-      AattacksB(attacker, defender);
-      battleText += checkDefenderHPafterBeingAttacked(attacker, defender) + "<br>";
+      aAttacksB(attacker, defender);
+      battleText.append(checkDefenderHpAfterBeingAttacked(attacker, defender)).append("<br>");
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
-        battleText += checkForWinner(attacker, defender) + "<br>";
+        battleText.append(checkForWinner(attacker, defender)).append("<br>");
         break;
       }
 
-      AattacksB(defender, attacker);
-      battleText += checkDefenderHPafterBeingAttacked(defender, attacker) + "<br>";
+      aAttacksB(defender, attacker);
+      battleText.append(checkDefenderHpAfterBeingAttacked(defender, attacker)).append("<br>");
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
-        battleText += checkForWinner(attacker, defender) + "<br>";
+        battleText.append(checkForWinner(attacker, defender)).append("<br>");
         break;
       }
     }
-    battleText += "</html>";
-    return battleText;
+    battleText.append("</html>");
+    return battleText.toString();
   }
 
   public String startSquadBattleHtml(Squad attacker, Squad defender){
-    String battleText = "<html>Battle log:" + "<br>";
+    StringBuilder battleText = new StringBuilder("<html>Battle log:" + "<br>");
     while(checkForWinner(attacker, defender).equals(this.continueBattle)) {
-      AattacksB(attacker, defender);
-      battleText += attacker.squadAttackEnemySquadWithLineSeparator(defender, "<br>") + "<br>";
+      aAttacksB(attacker, defender);
+      battleText.append(attacker.squadAttackEnemySquadWithLineSeparator(defender, "<br>")).append("<br>");
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
-        battleText += checkForWinner(attacker, defender) + "<br>";
+        battleText.append(checkForWinner(attacker, defender)).append("<br>");
         break;
       }
 
-      AattacksB(defender, attacker);
-      battleText += defender.squadAttackEnemySquadWithLineSeparator(attacker,"<br>") + "<br>";
+      aAttacksB(defender, attacker);
+      battleText.append(defender.squadAttackEnemySquadWithLineSeparator(attacker, "<br>")).append("<br>");
 
       if(!checkForWinner(attacker, defender).equals(this.continueBattle)){
-        battleText += checkForWinner(attacker, defender) + "<br>";
+        battleText.append(checkForWinner(attacker, defender)).append("<br>");
         break;
       }
     }
-    battleText += "</html>";
-    return battleText;
+    battleText.append("</html>");
+    return battleText.toString();
   }
 
-  public void AattacksB(Object attacker, Object defender){
+  public void aAttacksB(Object attacker, Object defender){
     if (attacker instanceof BaseSoldier) {
       if (defender instanceof BaseSoldier) {
         ((BaseSoldier) attacker).attack((BaseSoldier) defender);
@@ -79,7 +79,7 @@ public class Battle {
     }
   }
 
-  public String checkDefenderHPafterBeingAttacked(Object attacker, Object defender) {
+  public String checkDefenderHpAfterBeingAttacked(Object attacker, Object defender) {
     String tmp = "";
     if (attacker instanceof BaseSoldier) {
       if (defender instanceof BaseSoldier) {

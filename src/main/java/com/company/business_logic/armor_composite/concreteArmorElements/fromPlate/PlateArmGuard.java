@@ -3,9 +3,9 @@ package com.company.business_logic.armor_composite.concreteArmorElements.fromPla
 import com.company.business_logic.armor_composite.BaseArmor;
 import com.company.business_logic.armor_composite.materials.Plate;
 
-public class PlateArmguard extends BaseArmor {
+public class PlateArmGuard extends BaseArmor {
 
-  public PlateArmguard() {
+  public PlateArmGuard() {
     super(new Plate());
   }
 

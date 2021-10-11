@@ -39,7 +39,7 @@ public class BaseSoldier implements Movable{
 
 
   public int attack(BaseSoldier enemy) {
-    int attack = 0;
+    int attack;
     int block = 0;
 
     if(enemy.isAlive()){
@@ -60,7 +60,7 @@ public class BaseSoldier implements Movable{
   }
 
   public int shieldRam(BaseSoldier enemy){
-    int attack = 0;
+    int attack;
     int block = 0;
 
     if(shield!=null){
@@ -112,13 +112,13 @@ public class BaseSoldier implements Movable{
   }
 
   public int getLightArmorBonusToInitiative(){
-    int armorBonusToinitiative = 0;
+    int armorBonusToInitiative = 0;
     for (BaseArmor element : armorSet.getChildren()) {
       if(element instanceof LeatherArmorComposite || element instanceof ClothArmorComposite) {
-        armorBonusToinitiative += 5;
+        armorBonusToInitiative += 5;
       }
     }
-    return armorBonusToinitiative;
+    return armorBonusToInitiative;
   }
 
   public double calcDefaultInitiative(){

@@ -13,11 +13,10 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import javax.swing.JFrame;
 import javax.swing.*;
 
@@ -32,16 +31,16 @@ public class SquadBattleGUI extends JFrame {
   public static final int SQUAD_JLABEL_HEIGHT = 200;
   public static final int SQUAD_JLABEL_WIDTH = 300;
   public static final int SQUAD_JLABEL_Y_COORDINATE = 20;
-  private String gameMode = "Squad vs Squad AutoBattle";
+  private final String gameMode = "Squad vs Squad AutoBattle";
 
-  private String initialSquad1Label = "Squad 1 is empty, \n please add soldiers";
-  private String initialSquad2Label = "Squad 2 is empty, \n please add soldiers";
-  private String emptySquadsWarning = "The battle can not be started if Squads are empty";
-  private String addSoldierString = "Add soldier to the squad";
-  private String addBowmanString = "Add Bowman";
-  private String addCrossbowmanString = "Add Crossbowman";
-  private String addSpearmanString = "Add Spearman";
-  private String addSwordsmanString = "Add Swordsman";
+  private final String initialSquad1Label = "Squad 1 is empty, \n please add soldiers";
+  private final String initialSquad2Label = "Squad 2 is empty, \n please add soldiers";
+  private final String emptySquadsWarning = "The battle can not be started if Squads are empty";
+  private final String addSoldierString = "Add soldier to the squad";
+  private final String addBowmanString = "Add Bowman";
+  private final String addCrossbowmanString = "Add Crossbowman";
+  private final String addSpearmanString = "Add Spearman";
+  private final String addSwordsmanString = "Add Swordsman";
 
   Squad squadA = new Squad("Squad 1");
   Squad squadB = new Squad("Squad 2");
@@ -124,120 +123,88 @@ public class SquadBattleGUI extends JFrame {
     save.add(exportToTextFile);
     save.add(exportToDataBase);
 
-    add4soldiersToEachSquad.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
+    add4soldiersToEachSquad.addActionListener(e -> {
+      squadA.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
 
-        squadB.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Bowman("",new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Crossbowman("",new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Spearman("",new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Swordsman("",new SoldierPosition(0,0)));
 
-        labelForSquad1.setText(squadToString(squadA));
-        labelForSquad2.setText(squadToString(squadB));
-      }
+      labelForSquad1.setText(squadToString(squadA));
+      labelForSquad2.setText(squadToString(squadB));
     });
 
-    emptySquads.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA = new Squad("Squad 1");
-        squadB = new Squad("Squad 2");
+    emptySquads.addActionListener(e -> {
+      squadA = new Squad("Squad 1");
+      squadB = new Squad("Squad 2");
 
-        battleLog.setText("");
+      battleLog.setText("");
 
-        labelForSquad1.setText(initialSquad1Label);
-        labelForSquad2.setText(initialSquad2Label);
-      }
+      labelForSquad1.setText(initialSquad1Label);
+      labelForSquad2.setText(initialSquad2Label);
     });
 
-    exportToTextFile.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if(battleLog.getText()!=null && battleLog.getText()!="" && battleLog.getText() != emptySquadsWarning){
-          if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
-            BattleResultWriter.writeLogToFile("Squad Vs Squad AutoBattle" + "\n" + battleLog.getText());
-          }
-        }
-        else{
-          JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+    exportToTextFile.addActionListener(e -> {
+      if (battleLog.getText() == null || Objects.equals(battleLog.getText(), "") || Objects.equals(battleLog.getText(), emptySquadsWarning)) {
+        JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+      } else {
+        if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
+          BattleResultWriter.writeLogToFile("Squad Vs Squad AutoBattle" + "\n" + battleLog.getText());
         }
       }
     });
 
-    exportToDataBase.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if(battleLog.getText()!=null && battleLog.getText()!="" && battleLog.getText() != emptySquadsWarning){
-//          if(new BattleResultSavePopUp().ShowDialog() == 0){
-//            BattleResultWriter.writeLogToFile("Squad Vs Squad AutoBattle" + "\n" + battleLog.getText());
-//          }
-
-          DatabaseInfo battle_info = null;
-          try {
-            battle_info = new DatabaseInfo();
-          } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
-          }
-          battle_info.insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
+    exportToDataBase.addActionListener(e -> {
+      if(battleLog.getText()!=null && !Objects.equals(battleLog.getText(), "") && !Objects.equals(battleLog.getText(), emptySquadsWarning)){
+        DatabaseInfo battle_info;
+        try {
+          battle_info = new DatabaseInfo();
+          Objects.requireNonNull(battle_info).insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
           JOptionPane.showMessageDialog(battleLog,"Successfully exported to database","Success",JOptionPane.WARNING_MESSAGE);
-        }
-        else{
-          JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
-        }
-      }
-    });
-
-
-    startBattle.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        if(squadA.getSoldierSquad().size()!=0 && squadB.getSoldierSquad().size()!=0){
-          squadA.setSquadName(new DialogBox().showDialog("Enter name for Squad 1:"));
-          squadB.setSquadName(new DialogBox().showDialog("Enter name for Squad 2:"));
-
-          Battle battle = new Battle(squadA,squadB);
-
-          battleLog.setText(battle.startSquadBattleHtml(squadA,squadB));
-
-       }
-        else{
-          battleLog.setText(emptySquadsWarning);
+        } catch (ClassNotFoundException ex) {
+          ex.printStackTrace();
         }
       }
+      else{
+        JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
+      }
     });
 
-    addBowman.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad1.setText(squadToString(squadA));
+
+    startBattle.addActionListener(e -> {
+      if(squadA.getSoldierSquad().size()!=0 && squadB.getSoldierSquad().size()!=0){
+        squadA.setSquadName(new DialogBox().showDialog("Enter name for Squad 1:"));
+        squadB.setSquadName(new DialogBox().showDialog("Enter name for Squad 2:"));
+
+        Battle battle = new Battle(squadA,squadB);
+
+        battleLog.setText(battle.startSquadBattleHtml(squadA,squadB));
+
+     }
+      else{
+        battleLog.setText(emptySquadsWarning);
       }
     });
-    addCrossbowman.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad1.setText(squadToString(squadA));
-      }
+
+    addBowman.addActionListener(e -> {
+      squadA.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad1.setText(squadToString(squadA));
     });
-    addSpearman.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad1.setText(squadToString(squadA));
-      }
+    addCrossbowman.addActionListener(e -> {
+      squadA.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad1.setText(squadToString(squadA));
     });
-    addSwordsman.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadA.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad1.setText(squadToString(squadA));
-      }
+    addSpearman.addActionListener(e -> {
+      squadA.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad1.setText(squadToString(squadA));
+    });
+    addSwordsman.addActionListener(e -> {
+      squadA.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad1.setText(squadToString(squadA));
     });
 
     squad2.add(addSoldier2);
@@ -246,33 +213,21 @@ public class SquadBattleGUI extends JFrame {
     addSoldier2.add(addSpearman2);
     addSoldier2.add(addSwordsman2);
 
-    addBowman2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad2.setText(squadToString(squadB));
-      }
+    addBowman2.addActionListener(e -> {
+      squadB.addSoldierToTheSquad(new Bowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad2.setText(squadToString(squadB));
     });
-    addCrossbowman2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad2.setText(squadToString(squadB));
-      }
+    addCrossbowman2.addActionListener(e -> {
+      squadB.addSoldierToTheSquad(new Crossbowman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad2.setText(squadToString(squadB));
     });
-    addSpearman2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad2.setText(squadToString(squadB));
-      }
+    addSpearman2.addActionListener(e -> {
+      squadB.addSoldierToTheSquad(new Spearman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad2.setText(squadToString(squadB));
     });
-    addSwordsman2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        squadB.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
-        labelForSquad2.setText(squadToString(squadB));
-      }
+    addSwordsman2.addActionListener(e -> {
+      squadB.addSoldierToTheSquad(new Swordsman(new DialogBox().showDialog(ENTER_NAME_FOR_THE_SOLDIER),new SoldierPosition(0,0)));
+      labelForSquad2.setText(squadToString(squadB));
     });
 
     this.setJMenuBar(menuBar);
@@ -304,12 +259,12 @@ public class SquadBattleGUI extends JFrame {
 
   }
   private String squadToString(Squad squad){
-    String tmp = "<html>Squad consists of following soldiers:";
+    StringBuilder tmp = new StringBuilder("<html>Squad consists of following soldiers:");
     for(BaseSoldier soldier : squad.getSoldierSquad()){
-      tmp += "<br>" + soldier.getName() + " : " + soldier.getClass().getSimpleName();
+      tmp.append("<br>").append(soldier.getName()).append(" : ").append(soldier.getClass().getSimpleName());
     }
-    tmp += "</html>";
-    return tmp;
+    tmp.append("</html>");
+    return tmp.toString();
   }
 
   private String whoIsWinnerSquad(){

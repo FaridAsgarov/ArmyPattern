@@ -12,14 +12,14 @@ public class BaseArmorComposite extends BaseArmor {
 
   @Override
   public String toString() {
-    String tmp = "";
+    StringBuilder tmp = new StringBuilder();
     for (BaseArmor element : this.getChildren()) {
-      tmp += element.toString() + "\n";
+      tmp.append(element.toString()).append("\n");
     }
-    return tmp;
+    return tmp.toString();
   }
 
-  ArrayList<BaseArmor> ArmorEquipment = new ArrayList<BaseArmor>();
+  ArrayList<BaseArmor> ArmorEquipment = new ArrayList<>();
 
    protected void addArmorToList(BaseArmor baseArmor){
       ArmorEquipment.add(baseArmor);

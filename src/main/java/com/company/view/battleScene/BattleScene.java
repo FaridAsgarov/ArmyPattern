@@ -4,14 +4,12 @@ import com.company.business_logic.battle_logic.Battle;
 import com.company.business_logic.soldiers.squad.Squad;
 import com.company.view.DatabaseInfo;
 import com.company.view.EndingScreen;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.*;
-
 import static com.company.view.Constants.LOGO;
 import static java.awt.Color.BLUE;
 import static java.awt.Color.RED;
@@ -26,7 +24,7 @@ public class BattleScene extends JFrame implements KeyListener {
     public static final int LOG_HEIGHT = 500;
     private final JLabel battleLog = new JLabel("<html> Battle Log: <br/>");
     private String battleLogTextToBeExported;
-    private String gameMode = "Squad vs Squad Manual Battle";
+    private final String gameMode = "Squad vs Squad Manual Battle";
     private final JPanel myPanel;
 
     private final Squad squadA;
@@ -187,17 +185,18 @@ public class BattleScene extends JFrame implements KeyListener {
             if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
                 addWhoWonToBattleLogText();
                 BattleResultWriter.writeLogToFile(battleLogTextToBeExported);
+                JOptionPane.showMessageDialog(battleLog,"Successfully exported to a text file","Success",JOptionPane.WARNING_MESSAGE);
             }
             if(new BattleResultSavePopUp().ShowDialog("Would you like to export the battle result to a database?") == 0){
-                DatabaseInfo battle_info = null;
+                DatabaseInfo battle_info;
                 try {
                     battle_info = new DatabaseInfo();
+                    battle_info.insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
+                    JOptionPane.showMessageDialog(battleLog,"Successfully exported to database","Success",JOptionPane.WARNING_MESSAGE);
                 } catch (ClassNotFoundException ex) {
                     ex.printStackTrace();
                 }
-                battle_info.insertBattleInfoToDatabase(gameMode, whoIsWinnerSquad(), getCurrentDateAndFormatToString());
-                JOptionPane.showMessageDialog(battleLog,"Successfully exported to database","Success",JOptionPane.WARNING_MESSAGE);
-            }
+              }
             if (squadA.getSoldierCount() == 0) {
                 new EndingScreen(squadB.getName());
             } else {
@@ -228,7 +227,7 @@ public class BattleScene extends JFrame implements KeyListener {
         }
     }
 
-    public void saveBattleLogsToText(String battleText){
+    private void saveBattleLogsToText(String battleText){
         this.battleLogTextToBeExported += battleText + "\n";
     }
 

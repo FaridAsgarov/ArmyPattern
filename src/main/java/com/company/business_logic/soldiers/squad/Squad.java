@@ -3,6 +3,7 @@ package com.company.business_logic.soldiers.squad;
 import com.company.business_logic.soldiers.BaseSoldier;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Squad {
 
@@ -53,7 +54,7 @@ public class Squad {
   }
 
   public ArrayList<String> squadAttackEnemySoldier(BaseSoldier enemy) {
-    ArrayList<String> log = new ArrayList<String>();
+    ArrayList<String> log = new ArrayList<>();
     for (BaseSoldier soldier : soldierSquad) {
       if (soldier.isAlive()) {
         soldier.attack(enemy);
@@ -68,7 +69,7 @@ public class Squad {
   }
 
   public ArrayList<String> squadAttackEnemySquad(Squad enemySquad) {
-    ArrayList<String> log = new ArrayList<String>();
+    ArrayList<String> log = new ArrayList<>();
 
     for (BaseSoldier soldier : soldierSquad) {
       for (BaseSoldier enemy : enemySquad.getSoldierSquad())
@@ -88,7 +89,7 @@ public class Squad {
   }
 
   public ArrayList<String> squadAttackEnemySquadWithLineSeparator(Squad enemySquad, String lineSeparator) {
-    ArrayList<String> log = new ArrayList<String>();
+    ArrayList<String> log = new ArrayList<>();
 
     for (BaseSoldier soldier : soldierSquad) {
       for (BaseSoldier enemy : enemySquad.getSoldierSquad())
@@ -112,12 +113,7 @@ public class Squad {
   }
 
   public boolean isAlive() {
-    boolean isAlive = true;
-    if (this.getTotalHP() <= 0) {
-      isAlive = false;
-    }
-    ;
-    return isAlive;
+    return this.getTotalHP() > 0;
   }
 
   public int getTotalHP() {
@@ -145,15 +141,10 @@ public class Squad {
   }
 
   public boolean isSpaceOccupied(Squad enemySquad) {
-    boolean isOccupied = false;
-
-    if(isSpaceOccupiedByFriend()){
-      isOccupied = true;
-    }
+    boolean isOccupied = isSpaceOccupiedByFriend();
 
     if(isSpaceOccupiedByEnemy(enemySquad)){
       isOccupied = true;
-
     }
 
     return isOccupied;
@@ -165,8 +156,8 @@ public class Squad {
       if (getActiveSoldier().getSoldierPosition().positionX == soldier
           .getSoldierPosition().positionX
           && getActiveSoldier().getSoldierPosition().positionY == soldier
-          .getSoldierPosition().positionY && getActiveSoldier().getName() != soldier
-          .getName()) {
+          .getSoldierPosition().positionY && !Objects.equals(getActiveSoldier().getName(), soldier
+              .getName())) {
         isOccupied = true;
       }
     }

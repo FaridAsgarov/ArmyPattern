@@ -3,9 +3,9 @@ package com.company.business_logic.armor_composite.concreteArmorElements.fromIro
 import com.company.business_logic.armor_composite.BaseArmor;
 import com.company.business_logic.armor_composite.materials.Iron;
 
-public class IronArmguard extends BaseArmor {
+public class IronArmGuard extends BaseArmor {
 
-  public IronArmguard() {
+  public IronArmGuard() {
     super(new Iron());
   }
 }

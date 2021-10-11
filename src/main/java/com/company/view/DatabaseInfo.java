@@ -10,16 +10,10 @@ public class DatabaseInfo {
     public DatabaseInfo() throws ClassNotFoundException {
         this.url = "jdbc:mysql://localhost:3306/farid_db";
         this.username = "root";
-        this.password = "password";
+        this.password = "Password";
         try{
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
             e.printStackTrace();
         }
 
@@ -37,7 +31,7 @@ public class DatabaseInfo {
                         String battle_mode = resultSet.getString(2);
                         String battle_log = resultSet.getString(3);
                         String submission_date = resultSet.getString(4);
-                        battle_list.add(String.format("%d. %s - %s %s \n", battle_id, battle_mode, battle_log,submission_date));
+                        battle_list.add(String.format("%d. Game Mode Name: %s, Winner: %s, Date: %s \n", battle_id, battle_mode, battle_log,submission_date));
                     }
                 }
             catch(Exception ex){
@@ -52,13 +46,12 @@ public class DatabaseInfo {
         try (Connection conn = DriverManager.getConnection(this.url, this.username, this.password)){
 
             Statement statement = conn.createStatement();
-            int rows = statement.executeUpdate("INSERT into battle_info(battle_mode, battle_log, submission_date) " +
-                    "VALUES (\'"+battle_mode + "\',\'" + battle_winner + "\',\'" + year_month_day + "\')");
+            int rows = statement.executeUpdate("INSERT into battle_info (battle_mode, battle_winner, submission_date) " +
+                    "VALUES ('"+battle_mode + "','" + battle_winner + "','" + year_month_day + "')");
             System.out.printf("Added %d rows", rows);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
         }
     }
-
 
 }

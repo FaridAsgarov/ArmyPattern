@@ -10,10 +10,9 @@ public class BattleResultSavePopUp {
   }
   public int ShowDialog(String message){
     Object[] options = {"Yes","No"};
-    int n = JOptionPane.showOptionDialog(this.frame,
-        message,message, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
 
-    return n;
+    return JOptionPane.showOptionDialog(this.frame,
+        message,message, JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
 
   }
 

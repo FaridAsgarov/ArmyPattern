@@ -3,9 +3,9 @@ package com.company.business_logic.armor_composite.concreteArmorElements.fromClo
 import com.company.business_logic.armor_composite.BaseArmor;
 import com.company.business_logic.armor_composite.materials.Cloth;
 
-public class ClothArmguard extends BaseArmor {
+public class ClothArmGuard extends BaseArmor {
 
-      public ClothArmguard() {
+      public ClothArmGuard() {
             super(new Cloth());
       }
 }

@@ -7,7 +7,7 @@ public class HeavyArmorComposite extends BaseArmorComposite {
 
   public HeavyArmorComposite(Material material) {
     super(material);
-    this.addArmorToList(new ChainmailArmorComposite());
+    this.addArmorToList(new ChainMailArmorComposite());
     this.addArmorToList(new IronArmorComposite());
     this.addArmorToList(new LamellarArmorComposite());
     this.addArmorToList(new PlateArmorComposite());

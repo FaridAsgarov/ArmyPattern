@@ -3,9 +3,9 @@ package com.company.business_logic.armor_composite.concreteArmorElements.fromLea
 import com.company.business_logic.armor_composite.BaseArmor;
 import com.company.business_logic.armor_composite.materials.Leather;
 
-public class LeatherArmguard extends BaseArmor {
+public class LeatherArmGuard extends BaseArmor {
 
-   public LeatherArmguard(){
+   public LeatherArmGuard(){
       super(new Leather());
    }
 }

@@ -3,7 +3,7 @@ package com.company.business_logic.shield;
 import com.company.business_logic.armor_composite.materials.Leather;
 
 public class LeatherDecorator extends Shield{
-  private WoodenShield woodenShield;
+  private final WoodenShield woodenShield;
 
   public LeatherDecorator(WoodenShield woodenShield) {
     super(new Leather());
