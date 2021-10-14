@@ -32,6 +32,9 @@ public class SoldierAutoBattleGUI extends JFrame {
   private final String startingHtmlTag = "<html>";
   private final String gameMode = "Soldier vs Soldier AutoBattle";
   private String battleLogTextToBeExported = startingHtmlTag;
+  String initialStringForFirstSoldierName = "Enter the name for the first soldier:";
+  String initialStringForSecondSoldierName = "Enter the name for the second soldier:";
+
   BaseSoldier firstSoldier;
   BaseSoldier secondSoldier;
   String [] getSoldierNames(){
@@ -48,8 +51,11 @@ public class SoldierAutoBattleGUI extends JFrame {
 
     final JMenuBar menuBar = new JMenuBar();
     JMenu export = new JMenu("Export the game");
+    JMenu reset = new JMenu("Reset the game");
+
     JMenuItem exportToTextFile = new JMenuItem("Export the existing game to a text file");
     JMenuItem exportToDataBase = new JMenuItem("Export the existing game to a database");
+    JMenuItem resetButton = new JMenuItem("Reset all the information to their default values");
 
     JButton startBattle = new JButton("Fight!");
     JLabel firstPlayerLog=new JLabel(startingHtmlTag);
@@ -90,11 +96,11 @@ public class SoldierAutoBattleGUI extends JFrame {
     soldierList2.setBounds(650,85,300,20);
     soldierLabel2.setBounds(650,60,300,20);
 
-    JTextField firstSoldierName = new JTextField("Enter the name for the first soldier:");
+    JTextField firstSoldierName = new JTextField(initialStringForFirstSoldierName);
     this.add(firstSoldierName);
     firstSoldierName.setBounds(50,30,195,20);
 
-    JTextField secondSoldierName = new JTextField("Enter the name for the second soldier:");
+    JTextField secondSoldierName = new JTextField(initialStringForSecondSoldierName);
     this.add(secondSoldierName);
     secondSoldierName.setBounds(650,30,215,20);
 
@@ -114,25 +120,23 @@ public class SoldierAutoBattleGUI extends JFrame {
       firstPlayerPic.setOpaque(true);
     });
 
-    soldierList2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        soldierLabel2.setText(soldierList2.getSelectedItem() + " is selected!");
-        secondSoldier = SoldierAutoBattleGUI.this.createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), secondSoldierName.getText());
-        ImageIcon secondPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH + "/images/" + soldierList2.getSelectedItem() + ".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
-        secondPlayerPic.setIcon(secondPlayerIcon);
-        try{
-          secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
-        }
-        catch (Exception ex){
-        }
-        secondPlayerPic.setOpaque(true);
+    soldierList2.addActionListener(e -> {
+      soldierLabel2.setText(soldierList2.getSelectedItem() + " is selected!");
+      secondSoldier = SoldierAutoBattleGUI.this.createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), secondSoldierName.getText());
+      ImageIcon secondPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH + "/images/" + soldierList2.getSelectedItem() + ".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
+      secondPlayerPic.setIcon(secondPlayerIcon);
+      try{
+        secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
       }
+      catch (Exception ex) {
+      }
+      secondPlayerPic.setOpaque(true);
     });
 
 
     startBattle.addActionListener(e -> {
       if(firstSoldier==null || secondSoldier==null){
+        JOptionPane.showMessageDialog(firstPlayerLog,"The game can not be started because soldiers are not fully selected yet","Alert",JOptionPane.WARNING_MESSAGE);
         return;
       }
 
@@ -202,6 +206,25 @@ public class SoldierAutoBattleGUI extends JFrame {
       }
     });
 
+    resetButton.addActionListener(e -> {
+      firstSoldierName.setText(initialStringForFirstSoldierName);
+      secondSoldierName.setText(initialStringForSecondSoldierName);
+      soldierList.setVisible(false);
+      soldierList2.setVisible(false);
+      soldierLabel.setText(enterNameRequirement);
+      soldierLabel2.setText(enterNameRequirement);
+      firstSoldier=null;
+      secondSoldier=null;
+      firstPlayerLog.setText(startingHtmlTag);
+      secondPlayerLog.setText(startingHtmlTag);
+      firstPlayerPic.setIcon(null);
+      firstPlayerPic.setOpaque(false);
+      secondPlayerPic.setIcon(null);
+      secondPlayerPic.setOpaque(false);
+
+      JOptionPane.showMessageDialog(firstPlayerLog,"The game was reset to default values","Successful reset",JOptionPane.WARNING_MESSAGE);
+    });
+
 
     add(startBattle);
     add(firstPlayerLog);
@@ -222,8 +245,10 @@ public class SoldierAutoBattleGUI extends JFrame {
     menuBar.setVisible(true);
     this.add(menuBar);
     menuBar.add(export);
+    menuBar.add(reset);
     export.add(exportToTextFile);
     export.add(exportToDataBase);
+    reset.add(resetButton);
 
     setLayout(null);
     setVisible(true);

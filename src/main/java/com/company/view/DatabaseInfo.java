@@ -10,7 +10,7 @@ public class DatabaseInfo {
     public DatabaseInfo() throws ClassNotFoundException {
         this.url = "jdbc:mysql://localhost:3306/farid_db";
         this.username = "root";
-        this.password = "Password";
+        this.password = "ArmySimulator123";
         try{
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
