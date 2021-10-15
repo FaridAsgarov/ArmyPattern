@@ -227,16 +227,15 @@ public class SoldierAutoBattleGUI extends JFrame {
     randomSelect.addActionListener(e -> {
       firstSoldierName.setText("A");
       secondSoldierName.setText("B");
-      randomSelectSoldierTypes();
+
       soldierList.setVisible(true);
       soldierList2.setVisible(true);
 
-      soldierList.setSelectedIndex(returnIndexOfSoldierType(firstSoldier.getClass()));
-      soldierList2.setSelectedIndex(returnIndexOfSoldierType(secondSoldier.getClass()));
+      soldierList.setSelectedIndex(returnRandomSoldierTypeIndex());
+      soldierList2.setSelectedIndex(returnRandomSoldierTypeIndex());
 
       soldierLabel.setText(firstSoldier.getClass().getSimpleName() + " is selected!");
       soldierLabel2.setText(secondSoldier.getClass().getSimpleName() + " is selected!");
-
 
       ImageIcon firstPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH +"/images/" + firstSoldier.getClass().getSimpleName() +".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
       firstPlayerPic.setIcon(firstPlayerIcon);
@@ -333,18 +332,11 @@ public class SoldierAutoBattleGUI extends JFrame {
     return whoIsWinner;
   }
 
-  private void randomSelectSoldierTypes(){
-    BaseSoldier[] soldierType = {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
-            new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
-    firstSoldier = soldierType[getRandomInt(soldierType.length)];
-    secondSoldier = soldierType[getRandomInt(soldierType.length)];
-  }
-
   private int getRandomInt(int max) {
     return (int) Math.floor(Math.random() * max);
   }
 
-  private int returnIndexOfSoldierType(Class<? extends BaseSoldier> soldierClass){
+  private int returnRandomSoldierTypeIndex(){
     BaseSoldier[] soldierType = {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
             new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
 
