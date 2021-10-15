@@ -11,8 +11,6 @@ import com.company.view.battleScene.BattleResultSavePopUp;
 import com.company.view.battleScene.BattleResultWriter;
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -38,8 +36,8 @@ public class SoldierAutoBattleGUI extends JFrame {
   BaseSoldier firstSoldier;
   BaseSoldier secondSoldier;
   String [] getSoldierNames(){
-    BaseSoldier[] soldierType = {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
-        new Spearman("firstSoldier",new SoldierPosition(0,0)), new Swordsman("firstSoldier",new SoldierPosition(0,0))};
+    BaseSoldier[] soldierType = {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
+        new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
     String []names = new String[soldierType.length];
      for(int i = 0 ; i < soldierType.length; i++){
         names[i] = soldierType[i].getClass().getSimpleName();
@@ -52,10 +50,12 @@ public class SoldierAutoBattleGUI extends JFrame {
     final JMenuBar menuBar = new JMenuBar();
     JMenu export = new JMenu("Export the game");
     JMenu reset = new JMenu("Reset the game");
+    JMenu quickStart = new JMenu("Quick start");
 
     JMenuItem exportToTextFile = new JMenuItem("Export the existing game to a text file");
     JMenuItem exportToDataBase = new JMenuItem("Export the existing game to a database");
     JMenuItem resetButton = new JMenuItem("Reset all the information to their default values");
+    JMenuItem randomSelect = new JMenuItem("Skip name selection and randomly select soldier classes for a quick game");
 
     JButton startBattle = new JButton("Fight!");
     JLabel firstPlayerLog=new JLabel(startingHtmlTag);
@@ -222,9 +222,36 @@ public class SoldierAutoBattleGUI extends JFrame {
       secondPlayerPic.setIcon(null);
       secondPlayerPic.setOpaque(false);
 
-      JOptionPane.showMessageDialog(firstPlayerLog,"The game was reset to default values","Successful reset",JOptionPane.WARNING_MESSAGE);
     });
 
+    randomSelect.addActionListener(e -> {
+      firstSoldierName.setText("A");
+      secondSoldierName.setText("B");
+      randomSelectSoldierTypes();
+      soldierList.setVisible(true);
+      soldierList2.setVisible(true);
+
+      soldierList.setSelectedIndex(returnIndexOfSoldierType(firstSoldier.getClass()));
+      soldierList2.setSelectedIndex(returnIndexOfSoldierType(secondSoldier.getClass()));
+
+      soldierLabel.setText(firstSoldier.getClass().getSimpleName() + " is selected!");
+      soldierLabel2.setText(secondSoldier.getClass().getSimpleName() + " is selected!");
+
+
+      ImageIcon firstPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH +"/images/" + firstSoldier.getClass().getSimpleName() +".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
+      firstPlayerPic.setIcon(firstPlayerIcon);
+      firstPlayerLog.setComponentZOrder(firstPlayerPic,0);
+      firstPlayerPic.setOpaque(true);
+
+      ImageIcon secondPlayerIcon = new ImageIcon(new ImageIcon(RESOURCES_PATH + "/images/" + secondSoldier.getClass().getSimpleName() + ".JPG").getImage().getScaledInstance(imageSide, imageSide, Image.SCALE_DEFAULT));
+      secondPlayerPic.setIcon(secondPlayerIcon);
+      try{
+        secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
+      }
+      catch (Exception ex) {
+      }
+      secondPlayerPic.setOpaque(true);
+    });
 
     add(startBattle);
     add(firstPlayerLog);
@@ -246,9 +273,11 @@ public class SoldierAutoBattleGUI extends JFrame {
     this.add(menuBar);
     menuBar.add(export);
     menuBar.add(reset);
+    menuBar.add(quickStart);
     export.add(exportToTextFile);
     export.add(exportToDataBase);
     reset.add(resetButton);
+    quickStart.add(randomSelect);
 
     setLayout(null);
     setVisible(true);
@@ -302,6 +331,24 @@ public class SoldierAutoBattleGUI extends JFrame {
       whoIsWinner = "Draw, both lost!";
     }
     return whoIsWinner;
+  }
+
+  private void randomSelectSoldierTypes(){
+    BaseSoldier[] soldierType = {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
+            new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
+    firstSoldier = soldierType[getRandomInt(soldierType.length)];
+    secondSoldier = soldierType[getRandomInt(soldierType.length)];
+  }
+
+  private int getRandomInt(int max) {
+    return (int) Math.floor(Math.random() * max);
+  }
+
+  private int returnIndexOfSoldierType(Class<? extends BaseSoldier> soldierClass){
+    BaseSoldier[] soldierType = {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
+            new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
+
+    return getRandomInt(soldierType.length);
   }
 
 }
