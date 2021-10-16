@@ -35,12 +35,12 @@ public class SquadBattleGUI extends JFrame {
 
   private final String initialSquad1Label = "Squad 1 is empty, \n please add soldiers";
   private final String initialSquad2Label = "Squad 2 is empty, \n please add soldiers";
-  private final String emptySquadsWarning = "The battle can not be started if Squads are empty";
-  private final String addSoldierString = "Add soldier to the squad";
-  private final String addBowmanString = "Add Bowman";
-  private final String addCrossbowmanString = "Add Crossbowman";
-  private final String addSpearmanString = "Add Spearman";
-  private final String addSwordsmanString = "Add Swordsman";
+  private final String emptySquadsWarning = "The battle can not be started if the Squads are empty";
+  private final String addSoldierString = "Add a soldier to the squad";
+  private final String addBowmanString = "Add a Bowman";
+  private final String addCrossbowmanString = "Add a Crossbowman";
+  private final String addSpearmanString = "Add a Spearman";
+  private final String addSwordsmanString = "Add a Swordsman";
 
   Squad squadA = new Squad("Squad 1");
   Squad squadB = new Squad("Squad 2");
@@ -149,7 +149,7 @@ public class SquadBattleGUI extends JFrame {
     });
 
     exportToTextFile.addActionListener(e -> {
-      if (battleLog.getText() == null || Objects.equals(battleLog.getText(), "") || Objects.equals(battleLog.getText(), emptySquadsWarning)) {
+      if (battleLog.getText() == null || Objects.equals(battleLog.getText(), "")) {
         JOptionPane.showMessageDialog(battleLog,"The game can not be saved because Battle Log is empty","Alert",JOptionPane.WARNING_MESSAGE);
       } else {
         if(new BattleResultSavePopUp().ShowDialog("Would you like to export result of battle to a text file?") == 0){
@@ -159,7 +159,7 @@ public class SquadBattleGUI extends JFrame {
     });
 
     exportToDataBase.addActionListener(e -> {
-      if(battleLog.getText()!=null && !Objects.equals(battleLog.getText(), "") && !Objects.equals(battleLog.getText(), emptySquadsWarning)){
+      if(battleLog.getText()!=null && !Objects.equals(battleLog.getText(), "")){
         DatabaseInfo battle_info;
         try {
           battle_info = new DatabaseInfo();
@@ -177,8 +177,8 @@ public class SquadBattleGUI extends JFrame {
 
     startBattle.addActionListener(e -> {
       if(squadA.getSoldierSquad().size()!=0 && squadB.getSoldierSquad().size()!=0){
-        squadA.setSquadName(new DialogBox().showDialog("Enter name for Squad 1:"));
-        squadB.setSquadName(new DialogBox().showDialog("Enter name for Squad 2:"));
+        squadA.setSquadName(new DialogBox().showDialog("Enter a name for Squad 1:"));
+        squadB.setSquadName(new DialogBox().showDialog("Enter a name for Squad 2:"));
 
         Battle battle = new Battle(squadA,squadB);
 
@@ -186,7 +186,7 @@ public class SquadBattleGUI extends JFrame {
 
      }
       else{
-        battleLog.setText(emptySquadsWarning);
+        JOptionPane.showMessageDialog(battleLog,emptySquadsWarning,"Alert",JOptionPane.WARNING_MESSAGE);
       }
     });
 

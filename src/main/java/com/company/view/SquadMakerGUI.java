@@ -10,10 +10,9 @@ import com.company.business_logic.soldiers.squad.Squad;
 import com.company.view.battleScene.BattleScene;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,11 +26,11 @@ import static com.company.view.Constants.BACKGROUND_IMAGE;
 import static com.company.view.Constants.RESOURCES_PATH;
 
 public class SquadMakerGUI extends JFrame {
-    Squad squadA = new Squad(new DialogBox().showDialog("Enter name for Squad 1:"));
-  Squad squadB = new Squad(new DialogBox().showDialog("Enter name for Squad 2:"));
+    Squad squadA = new Squad(new DialogBox().showDialog("Enter a name for Squad 1:"));
+  Squad squadB = new Squad(new DialogBox().showDialog("Enter a name for Squad 2:"));
   String [] getSoldierNames(){
-    BaseSoldier soldierType[]= {new Bowman("firstSoldier", new SoldierPosition(0,0)), new Crossbowman("firstSoldier",new SoldierPosition(0,0)),
-        new Spearman("firstSoldier",new SoldierPosition(0,0)), new Swordsman("firstSoldier",new SoldierPosition(0,0))};
+    BaseSoldier soldierType[]= {new Bowman("Bowman", new SoldierPosition(0,0)), new Crossbowman("Crossbowman",new SoldierPosition(0,0)),
+        new Spearman("Spearman",new SoldierPosition(0,0)), new Swordsman("Swordsman",new SoldierPosition(0,0))};
     String []names = new String[soldierType.length];
     for(int i = 0 ; i < soldierType.length; i++){
       names[i] = soldierType[i].getClass().getSimpleName();
@@ -92,75 +91,63 @@ public class SquadMakerGUI extends JFrame {
     quickStart.setForeground(Color.RED);
     quickStart.setBounds(270,540,260,30);
 
-    quickStart.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SquadMakerGUI.super.dispose();
-        squadA.addSoldierToTheSquad(new Bowman("Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadA.getName(),new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Spearman("Spearman from " + squadA.getName(),new SoldierPosition(0,0)));
-        squadA.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadA.getName(),new SoldierPosition(0,0)));
+    quickStart.addActionListener(e -> {
+      SquadMakerGUI.super.dispose();
+      squadA.addSoldierToTheSquad(new Bowman("Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadA.getName(),new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadA.getName(),new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Spearman("Spearman from " + squadA.getName(),new SoldierPosition(0,0)));
+      squadA.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadA.getName(),new SoldierPosition(0,0)));
 
-        squadB.addSoldierToTheSquad(new Bowman("Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadB.getName(),new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Spearman("Spearman from " + squadB.getName(),new SoldierPosition(0,0)));
-        squadB.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadB.getName(),new SoldierPosition(0,0)));
-        new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
-            new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
-        );
+      squadB.addSoldierToTheSquad(new Bowman("Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Bowman("2nd Bowman from " + squadB.getName(),new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Crossbowman("Crossbowman from " + squadB.getName(),new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Spearman("Spearman from " + squadB.getName(),new SoldierPosition(0,0)));
+      squadB.addSoldierToTheSquad(new Swordsman("Swordsman from " + squadB.getName(),new SoldierPosition(0,0)));
+      new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
+          new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
+      );
+    });
+
+    soldierList.addActionListener(e -> {
+        soldierListLabel.setText(soldierList.getSelectedItem() + " is added to " + squadA.getName());
+        BaseSoldier soldier = createNewSoldier((String) Objects.requireNonNull(soldierList.getSelectedItem()), new DialogBox().showDialog("Enter name for Soldier:"));
+        squadA.addSoldierToTheSquad(soldier);
+        squad1.setText("<html>" + squadA.getName() + " has " + squadA.getSoldierSquad().size() + " soldiers:<br/>" + updateSquadDescription(squadA));
+
+      if(squadA.getSoldierSquad().size()>=5){
+        soldierList.setVisible(false);
+        soldierListLabel.setBounds(0,0,380,100);
+        soldierListLabel.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadA.getName());
+      }
+
+      if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
+        startManualBattle.setVisible(true);
       }
     });
 
-    soldierList.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-          soldierListLabel.setText(soldierList.getSelectedItem() + " is added to " + squadA.getName());
-          BaseSoldier soldier = createNewSoldier((String) soldierList.getSelectedItem(), new DialogBox().showDialog("Enter name for Soldier:"));
-          squadA.addSoldierToTheSquad(soldier);
-          squad1.setText("<html>" + squadA.getName() + " has " + squadA.getSoldierSquad().size() + " soldiers:<br/>" + updateSquadDescription(squadA));
+    soldierList2.addActionListener(e -> {
+      soldierListLabel2.setText(soldierList2.getSelectedItem() + " is added to " + squadB.getName());
+      BaseSoldier soldier2 = createNewSoldier((String) Objects.requireNonNull(soldierList2.getSelectedItem()), new DialogBox().showDialog("Enter name for Soldier:"));
+      squadB.addSoldierToTheSquad(soldier2);
+      squad2.setText("<html>" + squadB.getName() + " has " + squadB.getSoldierSquad().size() + " soldiers:<br/>" + updateSquadDescription(squadB));
 
-        if(squadA.getSoldierSquad().size()>=5){
-          soldierList.setVisible(false);
-          soldierListLabel.setBounds(0,0,380,100);
-          soldierListLabel.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadA.getName());
-        }
+      if(squadB.getSoldierSquad().size()>=5){
+        soldierList2.setVisible(false);
+        soldierListLabel2.setBounds(400,0,380,100);
+        soldierListLabel2.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadB.getName());
+      }
 
-        if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
-          startManualBattle.setVisible(true);
-        }
+      if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
+        startManualBattle.setVisible(true);
       }
     });
 
-    soldierList2.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        soldierListLabel2.setText(soldierList2.getSelectedItem() + " is added to " + squadB.getName());
-        BaseSoldier soldier2 = createNewSoldier((String) soldierList2.getSelectedItem(), new DialogBox().showDialog("Enter name for Soldier:"));
-        squadB.addSoldierToTheSquad(soldier2);
-        squad2.setText("<html>" + squadB.getName() + " has " + squadB.getSoldierSquad().size() + " soldiers:<br/>" + updateSquadDescription(squadB));
-
-        if(squadB.getSoldierSquad().size()>=5){
-          soldierList2.setVisible(false);
-          soldierListLabel2.setBounds(400,0,380,100);
-          soldierListLabel2.setText("<html>Maximum number of soldier reached,<br/> can not add anymore to " + squadB.getName());
-        }
-
-        if(squadA.getSoldierSquad().size()>=1 && squadB.getSoldierSquad().size()>=1){
-          startManualBattle.setVisible(true);
-        }
-      }
-    });
-
-    startManualBattle.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SquadMakerGUI.super.dispose();
-        new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
-            new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
-        );
-      }
+    startManualBattle.addActionListener(e -> {
+      SquadMakerGUI.super.dispose();
+      new BattleScene(new SoldierPositioningRepository(squadA).setPositions(8,8,100,508),
+          new SoldierPositioningRepository(squadB).setPositions(1108,8,100,508)
+      );
     });
 
     soldierList.setBounds(100,22,120,20);
@@ -208,13 +195,13 @@ public class SquadMakerGUI extends JFrame {
   }
 
   String updateSquadDescription(Squad squad){
-    String tmp = "";
+    StringBuilder tmp = new StringBuilder();
     for(BaseSoldier soldier : squad.getSoldierSquad())
     {
-      tmp += soldier.getClass().getSimpleName() + " " + soldier.getName() + "<br/>";
+      tmp.append(soldier.getClass().getSimpleName()).append(" ").append(soldier.getName()).append("<br/>");
     }
-    tmp += "</html>";
-    return tmp;
+    tmp.append("</html>");
+    return tmp.toString();
   }
 
 }

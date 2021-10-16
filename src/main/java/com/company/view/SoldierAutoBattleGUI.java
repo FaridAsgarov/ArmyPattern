@@ -21,7 +21,8 @@ import static com.company.view.Constants.RESOURCES_PATH;
 
 public class SoldierAutoBattleGUI extends JFrame {
   private final int LOG_Y_COORDINATE = 120;
-  private final int LOG_WIDTH_AND_HEIGHT = 480;
+  private final int LOG_WIDTH = 480;
+  private final int LOG_HEIGHT = 515;
   private final int firstPlayerLogXcoordinate = 0;
   private final int secondPlayerLogXcoordinate = 490;
   private final int imageSide = 100;
@@ -60,8 +61,8 @@ public class SoldierAutoBattleGUI extends JFrame {
     JButton startBattle = new JButton("Fight!");
     JLabel firstPlayerLog=new JLabel(startingHtmlTag);
     JLabel secondPlayerLog=new JLabel(startingHtmlTag);
-    firstPlayerLog.setBounds(firstPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH_AND_HEIGHT, LOG_WIDTH_AND_HEIGHT);
-    secondPlayerLog.setBounds(secondPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH_AND_HEIGHT, LOG_WIDTH_AND_HEIGHT);
+    firstPlayerLog.setBounds(firstPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH, LOG_HEIGHT);
+    secondPlayerLog.setBounds(secondPlayerLogXcoordinate, LOG_Y_COORDINATE, LOG_WIDTH, LOG_HEIGHT);
     JLabel firstPlayerPic = new JLabel();
 
     firstPlayerPic.setBounds(firstPlayerLogXcoordinate, imageYcoordinate, imageSide, imageSide);
@@ -128,7 +129,7 @@ public class SoldierAutoBattleGUI extends JFrame {
       try{
         secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
       }
-      catch (Exception ex) {
+      catch (Exception ignored) {
       }
       secondPlayerPic.setOpaque(true);
     });
@@ -247,7 +248,7 @@ public class SoldierAutoBattleGUI extends JFrame {
       try{
         secondPlayerLog.setComponentZOrder(secondPlayerPic, 1);
       }
-      catch (Exception ex) {
+      catch (Exception ignored) {
       }
       secondPlayerPic.setOpaque(true);
     });
